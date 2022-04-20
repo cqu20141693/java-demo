@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- https://juejin.cn/post/6844903641535479821  -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!--获取spring property-->
+    <springProperty scope="context" name="springAppName" source="spring.application.name" defaultValue="default-app"/>
+    <springProperty scope="context" name="logPath" source="log.path" defaultValue="/app/log"/>
+    <springProperty scope="context" name="componentPath" source="log.component.path" defaultValue="/app/log/component"/>
+
+    <!-- 自定义属性转换器-->
+    <conversionRule conversionWord="ip" converterClass="com.gow.logger.LogIpConfig"/>
+    <!-- 定义属性-->
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="LOG_FILE" value="${logPath}"/>​
+    <property name="LOG_COMPONENT_FILE" value="${componentPath}"/>​
+    <!-- 控制台日志appender  -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <!-- Appender to log to file -->​
+    <appender name="flatFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <file>${LOG_FILE}/${springAppName}/${springAppName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}/${springAppName}/${springAppName}.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>5</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <!-- Appender to log to file in a JSON format -->
+    <appender name="filebeat" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <file>${LOG_FILE}/${springAppName}/${springAppName}.json</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}/${springAppName}/${springAppName}.json.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>5</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "severity": "%level",
+                        "service": "${springAppName:-}",
+                        "XForwardedFor":"%X{X-Forwarded-For:-}",
+                        "trace": "%X{X-B3-TraceId:-}",
+                        "span": "%X{X-B3-SpanId:-}",
+                        "parent": "%X{X-B3-ParentSpanId:-}",
+                        "exportable": "%X{X-Span-Export:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "rest": "%message %ex{6}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="logComponentAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <file>${LOG_COMPONENT_FILE}/${springAppName}/${springAppName}.json</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_COMPONENT_FILE}/${springAppName}/${springAppName}.json.%d{yyyy-MM-dd}.gz
+            </fileNamePattern>
+            <maxHistory>5</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <fieldName>timestamp</fieldName>
+                    <timeZone>UTC</timeZone>
+                    <pattern>[UNIX_TIMESTAMP_AS_NUMBER]</pattern>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "ip":"%ip",
+                        "payload": "%message"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <logger name="com.gow.logger.LoggerComponent"  additivity="false">
+        <appender-ref ref="logComponentAppender"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <springProfile name="dev,test">
+            <appender-ref ref="flatFile"/>
+            <appender-ref ref="filebeat"/>
+        </springProfile>
+        <springProfile name="prod">
+            <appender-ref ref="filebeat"/>
+        </springProfile>
+    </root>
+</configuration>

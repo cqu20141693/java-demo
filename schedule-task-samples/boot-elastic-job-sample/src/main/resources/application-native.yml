@@ -1,0 +1,14 @@
+zk:
+  servers: localhost:2181
+  lockerNodePath: /temp/statistic
+  namespace: elastic-job-demo-test
+  baseSleepTimeMilliseconds: 5000
+  maxSleepTimeMilliseconds: 5000
+  maxRetries: 3
+schedule:
+  simple:
+    name: MyJob
+    cron: 59 * * * * ?
+  demo:
+    name: demoJob01
+    cron: 0/10 * * * * ?

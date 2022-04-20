@@ -1,0 +1,3 @@
+mongo=com.gow.spi.impl.MongoDBPool
+mysql=com.gow.spi.impl.MysqlPool
+redis=com.gow.spi.impl.RedisPool

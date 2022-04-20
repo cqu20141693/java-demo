@@ -1,0 +1,25 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds0,ds1
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://mysql-mysqlha-write.mysql.svc.cluster.local:3306/wjt_sharding_sphere?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: root
+        maxPoolSize: 5
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        jdbcUrl: jdbc:mysql://mysql-mysqlha-write.mysql.svc.cluster.local:3306/wujt_sharding_sphere?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: root
+        maxPoolSize: 5
+    masterslave:
+      load-balance-algorithm-type: round_robin
+      name: ds_ms
+      master-data-source-name: ds0
+      slave-data-source-names: ds1
+    props:
+      sql.show: true

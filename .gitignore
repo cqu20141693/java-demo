@@ -1,0 +1,42 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+log/
+
+# idea file
+/.idea/
+/redis-samples/.idea/
+/zookeeper-samples/.idea/
+/script-samples/.idea/
+/spring-boot-samples/.idea/
+/spring-boot-samples/boot-validation-sample/.idea/
+/spring-boot-samples/boot-oss-sample/.idea/
+/spring-boot-samples/boot-basic-common/.idea/
+/spring-boot-samples/boot-2.4.5-dependencies/.idea/
+/spring-boot-samples/boot-grpc-sample/.idea/
+/spring-cloud-nacos/producer-dmeo/.idea/
+/spring-cloud-nacos/cloud-gateway-demo/.idea/
+
+.flattened-pom.xml
+/logPath_IS_UNDEFINED/

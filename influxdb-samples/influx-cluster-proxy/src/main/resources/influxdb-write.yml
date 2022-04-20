@@ -1,0 +1,4 @@
+server:
+  port: 7300
+  tomcat:
+    uri-encoding: UTF-8

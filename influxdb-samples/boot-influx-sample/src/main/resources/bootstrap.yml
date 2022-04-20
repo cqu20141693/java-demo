@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: influx-service
+  profiles:
+    active: native

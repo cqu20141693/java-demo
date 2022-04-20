@@ -1,0 +1,59 @@
+server:
+  port: 9999
+spring:
+  cloud:
+    gateway:
+      routes:
+        # - id: GET:/userInfo
+        #   uri: http://localhost:8889
+        #   predicates:
+        #     - Path=/producer/userinfo
+        - id: cookie_route
+          uri: http://localhost:8889
+          predicates:
+            - Cookie=mycookie,mycookievalue
+        # - id: befroe_route # before_route,between_route,after_route
+        #   uri: http://localhost:8889
+        #   predicates:
+        #     - Before=2021-06-20T17:42:47.789-07:00[America/Denver]
+        - id: header_route
+          uri: http://localhost:8889
+          predicates:
+            - Header=X-Request-Id,\d+
+        - id: path_route
+          uri: http://localhost:8889/test
+          predicates:
+            - Path=/producer/test
+        - id: path_route_2
+          uri: lb://producer-service
+          predicates:
+            - Path=/producer/**
+        - id: circuitbreaker_route
+          uri: http://localhost:8088
+          predicates:
+            - Path=/city/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: myCircuitBreaker
+                fallbackUri: forward:/city/hello
+                # statusCodes: 需要熔断的状态码
+        # AUTH CAPABILITY API test
+        - id: test-greet
+          uri: lb://cloud-backend-service
+          predicates:
+            - Path=/api/test/greet
+        - id: get-user-info
+          uri: lb://cloud-backend-service
+          predicates:
+            - Path=/api/user/getUserInfo
+  redis:
+    host: 172.19.214.114
+    port: 6379
+    password: cc@123
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: debug

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: spring-boot-elasticJob
+  profiles:
+    active: mqtt
+server:
+  port: 11222  # 10100
+

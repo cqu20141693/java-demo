@@ -1,0 +1,10 @@
+server:
+  port: 22181
+spring:
+  cloud:
+    zookeeper:
+      connect-string: 172.20.245.156:2181,172.21.88.239:2181,172.20.245.152:2181
+      block-until-connected-wait: 10
+      enabled: true
+      max-retries: 10
+      max-sleep-ms: 500

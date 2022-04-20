@@ -1,0 +1,49 @@
+server:
+  port: 9020
+shiro:
+  cache: false
+  cluster: false  #集群配置  true集群环境   false单机环境，还需打开pom.xml里的spring-session-data-redis注释
+  globalSessionTimeout: 86400000
+  redis:
+    host: dev-redis-redis-ha-master-svc.devdb.svc.cluster.local
+    database: 3
+    port: 6379
+    password: ""
+    expire: 86400000
+    timeOut: 86400000
+    sentinel:
+      open: false
+      master: m8013
+      nodes: 172.16.153.120:28013,172.16.153.121:28013,172.16.153.122:28013
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+  datasource:
+    master:
+      jdbc-url: jdbc:mysql://mysql-mysqlha-write.mysql.svc.cluster.local:3306/user-auth?useLegacyDatetimeCode=false&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+      maximum-pool-size: 20
+      connection-init-sql: SET NAMES utf8mb4
+      log-open: false
+JWTParam:
+  TOKEN_EXP: 86400000
+  HY_REFRESH_TOKEN_EXP: 1296000000
+  HY_COOKIE: "hy_hportal_cookie"
+  HY_REFRESH_COOKIE: "hy_refresh_cookie"
+  BASE64_ENCODE_SECRET_KEY: "VMrFFQNsBYM84hH+EysC6A=="
+  REFRESH_BASE64_ENCODE_SECRET_KEY: "lfrSSQNs9hI84hH+msOC6A=0"
+
+logging:
+  level:
+    com:
+      wujt: info
+      alibaba:
+        nacos: error

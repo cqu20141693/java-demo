@@ -1,0 +1,13 @@
+developer:
+  adapters:
+    - name: java
+      host: localhost:9092
+      userName: root
+      password: root
+producer:
+  name: paslur
+extend:
+  kafka:
+    servers: kafka-dev-outer-0.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-1.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-2.kafka-dev.svc.cluster.local:9092
+    group: dev
+    topic: salary

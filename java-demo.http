@@ -1,0 +1,22 @@
+
+
+### redis script
+#### addRoute
+GET http://localhost:10011/lua/addRoute?deviceKey=RTzQdVDPQEmEr5g2%23%23cc-techDevice0001&sessionKey=0001
+Accept: application/json
+#### refreshRoute
+GET http://localhost:10011/lua/refreshRoute?deviceKey=RTzQdVDPQEmEr5g2%23%23cc-techDevice0001&sessionKey=0001
+Accept: application/json
+#### removeRoute
+GET http://localhost:10011/lua/removeRoute?deviceKey=RTzQdVDPQEmEr5g2%23%23cc-techDevice0001&sessionKey=0001
+Accept: application/json
+#### getRoute
+GET http://localhost:10011/lua/getRoute?deviceKey=D:RRTzQdVDPQEmEr5g2%23%23cc-techDevice0001
+Accept: application/json
+
+### getTTL
+GET http://localhost:10011/lua/getRouteTTL?deviceKey=D:RRTzQdVDPQEmEr5g2%23%23cc-techDevice0001
+Accept: application/json
+
+### redis mq pub
+GET http://localhost:10011/redis/mq/pub?topic=D:D:deviceKey&value=hello

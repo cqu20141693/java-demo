@@ -1,0 +1,14 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info
+spring:
+  graphql:
+    schema:
+      printer:
+        enabled: true
+      locations: classpath:graphql/
+    websocket:
+      path: /graphql
+      connection-init-timeout: 60s

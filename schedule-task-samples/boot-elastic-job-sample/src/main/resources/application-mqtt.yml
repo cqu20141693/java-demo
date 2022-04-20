@@ -1,0 +1,40 @@
+zk:
+  servers: broker-app-zk-broker-zk.dev.svc.cluster.local:2181
+#  servers: localhost:2181
+#  lockerNodePath: /temp/statistic
+  namespace: elastic-job-demo-test
+  baseSleepTimeMilliseconds: 5000
+  maxSleepTimeMilliseconds: 5000
+  maxRetries: 3
+schedule:
+  simple:
+    name: MyJob
+    cron: 59 * * * * ?
+  demo:
+    name: demoJob01
+    cron: 0/10 * * * * ?
+
+#mqtt
+broker:
+  #address: tcp://172.16.20.60:3883
+  address: tcp://mqtt-broker-device.dev.svc.cluster.local:1883 #开发环境 10.233.70.76
+  #address: tcp://10.233.70.66:1883 #开发环境
+  #address: tcp://118.178.153.178:1883 #生产环境
+  #address: tcp://mqtt-broker-device.test.svc.cluster.local:1883 #测试环境
+  #address: tcp://mqtt-broker-app.dev.svc.cluster.local:3883 #开发subscribe
+  keep-alive-second: 120
+wujt:
+  restapi:
+    #url: http://172.16.20.60:8888/api/v1
+    #url: http://api.wujt.com:80/api/vi
+    url: http://zuul-inner-gateway.dev.svc.cluster.local:8889/api/v1  #开发
+    #url: http://10.233.101.117:9900/   测试
+    #url: http://api.han:clouds.com/api/v1  #生产
+topic:
+  topic-welcome-start: rsp/welcome
+  topic-proxy-welcome-start: rsp/proxy/welcome
+  topic-cmdstart: cmd
+  topic-ctl-start: ctl
+  topic-data-start: data
+  topic-error: $error
+  topic-proxy-notify-start: rsp/proxy/notify

@@ -1,0 +1,9 @@
+server:
+  port: 18688
+sms:
+  signatureName: 54Ca5LqR
+  max_sms_perday: 200
+  aliyun:
+    accesskey: LTAI4G4MEjRTP31xurWF13QU
+    secretkey: qOh6e30d1aKcmLcIrirbWQHZIvpSMd
+    tplMap: '{"REGISTER_CAPTCHA":"SMS_183805633","LOGIN_CAPTCHA2":"SMS_183805631","FORGETPWD_CAPTCHA":"SMS_183805633"}'

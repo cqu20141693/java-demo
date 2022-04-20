@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.k3s.in:80
+        namespace: 68820d49-ef7e-4b8c-b53a-3941486cf959
+      config:
+        namespace: 68820d49-ef7e-4b8c-b53a-3941486cf959
+        server-addr: nacos.k3s.in:80
+        file-extension: yml
+  data:
+    mongodb:
+      uri: mongodb://root:root@mongodb42.devdb.svc.cluster.local:27017
+      database: test-4x
+mongo:
+  uri: mongodb://root:root@mongodb42.devdb.svc.cluster.local:27017
+  dbName: test-4x
+
+
+server:
+  port: 9230
+  tomcat:
+    uri-encoding: UTF-8

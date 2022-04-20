@@ -1,0 +1,24 @@
+spring:
+  mail:
+    default-encoding: utf-8
+    host: smtp.163.com
+    port: 465
+    protocol: smtp
+    username: 15123784108@163.com
+    password: wq114655  # 授权码，并非登录密码
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          ssl:
+            enable: true
+            socketFactory:
+              class: javax.net.ssl.SSLSocketFactory
+        imap:
+          ssl:
+            socketFactory:
+              fallback: false

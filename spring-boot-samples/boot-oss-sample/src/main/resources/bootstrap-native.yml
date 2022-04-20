@@ -1,0 +1,10 @@
+server:
+  port: 10040
+gow:
+  exception:
+    enable: true
+logging:
+  group:
+    component: com.gow.logger
+  level:
+    component: debug

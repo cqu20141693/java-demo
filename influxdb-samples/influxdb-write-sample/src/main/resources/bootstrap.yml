@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: influxdb-write
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true

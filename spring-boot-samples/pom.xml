@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>java-demo</artifactId>
+    <groupId>com.wujt</groupId>
+    <version>${revision}</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>spring-boot-samples</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>spring-boot-webflux-sample</module>
+    <module>boot-validation-sample</module>
+    <module>boot-oss-sample</module>
+    <module>boot-2.4.5-dependencies</module>
+    <module>boot-grpc-sample</module>
+    <module>boot-test-service</module>
+    <module>spring-boot-websocket</module>
+    <module>spring-boot-SpEL</module>
+    <module>spring-boot-cache</module>
+    <module>spring-boot-Async</module>
+    <module>spring-boot-email</module>
+    <module>spring-boot-IOC</module>
+    <module>spring-boot-AOP</module>
+    <module>spring-boot-security</module>
+    <module>spring-boot-orm</module>
+    <module>spring-boot-graphql</module>
+    <module>boot-openapi-swagger</module>
+    <module>boot-http-sample</module>
+    <module>spring-boot-transaction</module>
+    <module>spring-boot-batch</module>
+  </modules>
+
+
+</project>

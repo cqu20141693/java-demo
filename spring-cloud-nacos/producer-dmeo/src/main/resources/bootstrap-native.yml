@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 172.30.203.22:8848
+        file-extension: yml
+      discovery:
+        server-addr: 172.30.203.22:8848
+        register-enabled: true
+service-cloud-cache:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    listOfServers: localhost:9100
+    ServerListRefreshInterval: 15000
+feign:
+  client:
+    config:
+      default: # 表示对所有的feign
+        connectTimeout: 10000   #毫秒
+        readTimeout: 10000      #毫秒

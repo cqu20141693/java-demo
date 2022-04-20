@@ -1,0 +1,34 @@
+
+gow:
+  pulsar:
+    serviceUrl: pulsar://172.30.203.25:6650,172.30.203.26:6650,172.30.203.24:6650
+    cluster: pulsar-cluster
+    client:
+      role: gow
+      jwt-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb3cifQ.XEHjhJUU-yx6z-fOFid2K-Ez3EK-tlLUt4Ny0sk308A
+    producer:
+      topics:
+        - name: persistent://gow/persistent/p-failover-test-topic
+        - name: persistent://gow/persistent/delay-event-topic
+        - name: non-persistent://public/default/cc-test-topic
+        - name: persistent://gow/persistent/json-schema-test-topic
+          schema: Json
+          json-class: com.gow.pulsar.test.schema.model.RawDataV2
+      access-mode: shared
+      batching-enabled: true
+    consumer:
+      subscription-initial-position: latest
+      receiver-queue-size: 2000
+    admin:
+      web-service-url: http://172.30.203.25:8080,172.30.203.26:8080,172.30.203.24:8080
+      admin-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjaG9uZ2N0ZWNoLXN1cGVyLXVzZXIifQ.o8GzC_pMaIayEJJxwcfQsTLRuup6eL0idBFgiSJLjmo
+pulsar:
+  topic:
+    in:
+      fail-over: persistent://gow/persistent/p-failover-test-topic
+jwt:
+  broker:
+    token-mode: SECRET
+    secret-key: pulsar/dev-secret.key
+server:
+  port: 16050

@@ -1,0 +1,7 @@
+server:
+  port: 18086
+spring:
+  influx:
+    url: http://172.19.214.113:8086
+    user: root
+    password: cc@2021

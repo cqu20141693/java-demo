@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: oss-service
+  profiles:
+    active: native

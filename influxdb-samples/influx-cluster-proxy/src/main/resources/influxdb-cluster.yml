@@ -1,0 +1,13 @@
+extend:
+  influx:
+    serversAndBucket: 10.233.11.221:8086:1   # 配置服务器和bucket
+    user: root
+    password: root
+    localStorePath: /data/wujt  # 配置本地存储磁盘
+    rule:
+      product:  # 配置产品级路由策略，后续支持可自由配置host
+        ruleData:
+          1: #productId --ysten
+            dataBase: wujt_data_normal
+            retentionPolicy: default_normal
+            factor: 0

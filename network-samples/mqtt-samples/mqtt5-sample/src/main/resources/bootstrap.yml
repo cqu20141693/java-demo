@@ -1,0 +1,4 @@
+server:
+  port: 9094
+mqtt:
+  port: 8883

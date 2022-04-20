@@ -1,0 +1,19 @@
+server:
+  port: 1001
+  tomcat:
+    uri-encoding: UTF-8
+mybatis:
+  configuration:
+    # 是否打印 sql 语句 调试的时候可以开启
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mappers/*.xml
+spring:
+  datasource:
+    url: jdbc:phoenix:cdh-w1:2181
+    driver-class-name: org.apache.phoenix.jdbc.PhoenixDriver
+# 分页配置
+pagehelper:
+  helper-dialect: phoenix
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

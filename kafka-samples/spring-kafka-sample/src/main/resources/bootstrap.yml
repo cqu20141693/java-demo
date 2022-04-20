@@ -1,0 +1,56 @@
+spring:
+  kafka:
+    consumer:
+      group-id: foo
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: false
+      max-poll-records: 500
+      properties:
+        partition:
+          assign:
+            strategy: org.apache.kafka.clients.consumer.StickyAssignor
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 3
+      compressionType: snappy
+      batch-size: 16384
+      buffer-memory: 33554432
+    #    bootstrap-servers: localhost:9092 # cq-dev
+    #    bootstrap-servers: 10.200.95.239:9092,10.200.108.175:9092,10.200.105.174:9092 # cq-dev
+    bootstrap-servers: kafka-dev-outer-0.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-1.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-2.kafka-dev.svc.cluster.local:9092
+  profiles:
+    active: native
+
+#    bootstrap-servers: test-kafka-0.test-kafka-headless.testdb.svc.cluster.local:9092,test-kafka-1.test-kafka-headless.testdb.svc.cluster.local:9092,test-kafka-2.test-kafka-headless.testdb.svc.cluster.local:9092
+server:
+  port: 19094
+kafka:
+  consumer:
+    group-id: foo
+    auto-offset-reset: earliest
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    enable-auto-commit: false
+    max-poll-records: 500
+    bootstrap-servers: kafka-dev-outer-0.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-1.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-2.kafka-dev.svc.cluster.local:9092
+    partition-assign-strategy: org.apache.kafka.clients.consumer.StickyAssignor
+  producer:
+    bootstrap-servers: kafka-dev-outer-0.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-1.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-2.kafka-dev.svc.cluster.local:9092
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    client-id: data
+    acks: all  # 数据不丢失
+    request-timeout-ms: 15000
+    retries: 3
+    retryInterval: 3000
+    max-request-per-connection: 1 # 有序性
+    batch-size: 16384  # 吞吐量
+    linger-ms: 50
+    compression-type: snappy
+    buffer-memory: 33554432  # 生产者稳定性
+    max-block-ms: 60000
+  topic:
+    data-topic: retry-test

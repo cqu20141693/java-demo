@@ -1,0 +1,27 @@
+spring:
+  rabbitmq:
+    host: 192.168.96.128
+    port: 5672
+    username: guest
+    password: guest
+    cache:
+      channel:
+        size: 50
+        # 定义虚拟机
+    virtual-host: /
+    publisher-returns: true
+    template:
+      mandatory: true
+      # 重试配置
+    publisher-confirm-type: simple
+#      retry:
+#        enabled: true
+#        initial-interval: 2s
+#        max-attempts: 3
+rabbit:
+  host: 192.168.96.128
+  port: 5672
+  username: guest
+  password: guest
+  virtual-host: /
+  publisherConfirms: true

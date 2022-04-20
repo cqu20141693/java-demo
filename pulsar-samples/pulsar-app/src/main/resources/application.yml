@@ -1,0 +1,30 @@
+gow:
+  pulsar:
+    cluster: pulsar-cluster
+    service-url: pulsar://172.30.203.25:6650,172.30.203.26:6650,172.30.203.24:6650
+    client:
+      role: gow
+      jwt-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb3cifQ.XEHjhJUU-yx6z-fOFid2K-Ez3EK-tlLUt4Ny0sk308A
+    producer:
+      topics:
+        - name: cc-test-topic
+      access-mode: shared
+      batching-enabled: true
+    consumer:
+      subscription-initial-position: latest
+      receiver-queue-size: 2000
+    admin:
+      web-service-url: http://172.30.203.25:8080,172.30.203.26:8080,172.30.203.24:8080
+      admin-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjaG9uZ2N0ZWNoLXN1cGVyLXVzZXIifQ.o8GzC_pMaIayEJJxwcfQsTLRuup6eL0idBFgiSJLjmo
+    tenant:
+      namespace: persistent
+      name: gow
+      role: gow
+      topic: cc-test-topic
+  test:
+    pulsar:
+      json-schema-topic: true
+jwt:
+  broker:
+    token-mode: SECRET
+    secret-key: pulsar/dev-secret.key

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>java-demo</artifactId>
+        <groupId>com.wujt</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>influxdb-samples</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>influxdb-write-sample</module>
+        <module>influx-cluster-proxy</module>
+        <module>influx-query-sample</module>
+      <module>boot-influx-sample</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.wujt</groupId>
+                <artifactId>influx-cluster-proxy</artifactId>
+                <version>${version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

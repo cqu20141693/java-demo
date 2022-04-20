@@ -1,0 +1,7 @@
+server:
+  port: 12181
+zookeeper:
+#  connectString: 172.20.245.156:2181,172.21.88.239:2181,172.20.245.152:2181
+#  connectString: 172.20.245.156:2181
+#  connectString: 172.21.88.239:2181
+  connectString: 172.20.245.152:2181

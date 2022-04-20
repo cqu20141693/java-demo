@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: producer-service
+  profiles:
+    active: native
+server:
+  port: 8891

@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+        shared-configs:
+          - dataId: shared-environment.yml
+            group: DEFAULT
+            refresh: true
+      discovery:
+        server-addr: localhost:8848
+        register-enabled: true

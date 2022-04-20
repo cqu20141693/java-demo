@@ -1,0 +1,32 @@
+server:
+  port: 10011
+# 单节点配置 RedisStandaloneConfiguration
+spring:
+  redis:
+    host: 192.168.96.128
+    port: 6379
+#    password: cc@123
+    database: 0
+    lettuce: # 连接池配置，需要添加pool2依赖
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1
+    timeout: 30000
+gow:
+  redis:
+    host: 192.168.96.128
+    port: 6379
+#    password: cc@123
+    database: 0
+    lettuce: # 连接池配置，需要添加pool2依赖
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1
+    timeout: 30000
+redis:
+  key-expire-event:
+    topic: __keyspace@1__:user*

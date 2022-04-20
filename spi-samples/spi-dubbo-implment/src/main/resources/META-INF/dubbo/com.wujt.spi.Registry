@@ -1,0 +1,3 @@
+etcd=cmo.gow.dubbo.spi.impl.EtcdRegistry
+zookeeper=cmo.gow.dubbo.spi.impl.ZookeeperRegistry
+proxy=cmo.gow.dubbo.spi.impl.RegistryWrapper

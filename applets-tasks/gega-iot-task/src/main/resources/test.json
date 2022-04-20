@@ -1,0 +1,383 @@
+{
+  "category": "农业设备",
+  "devices": [
+    {
+      "name": "农田灌溉设备",
+      "indexes": [
+        0,
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "name": "墒情监测设备",
+      "indexes": [
+        1,
+        3,
+        15
+      ]
+    },
+    {
+      "name": "小型气象站",
+      "indexes": [
+        1,
+        3,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "高精度气象站",
+      "indexes": [
+        1,
+        2,
+        3,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "边缘控制设备",
+      "indexes": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "name": "智能施肥机",
+      "indexes": [
+        1,
+        2,
+        9
+      ]
+    },
+    {
+      "name": "光照监控设备",
+      "indexes": [
+        1,
+        6,
+        16
+      ]
+    },
+    {
+      "name": "土壤监测器",
+      "indexes": [
+        14,
+        7,
+        8,
+        5,
+        1
+      ]
+    },
+    {
+      "name": "空气监测设备",
+      "indexes": [
+        1,
+        7,
+        8,
+        14
+      ]
+    },
+    {
+      "name": "风情监测设备",
+      "indexes": [
+        11,
+        10,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "边缘网关设备",
+      "indexes": [
+        18,
+        17,
+        3,
+        1
+      ]
+    },
+    {
+      "name": "控制设备",
+      "indexes": [
+        0,
+        1,
+        3,
+        18
+      ]
+    },
+    {
+      "name": "虫情监测设备",
+      "indexes": [
+        15,
+        1,
+        2
+      ]
+    },
+    {
+      "name": "农情摄像头",
+      "indexes": [
+        1,
+        2,
+        18
+      ]
+    },
+    {
+      "name": "农田记录仪",
+      "indexes": [
+        5,
+        7,
+        10,
+        12,
+        14
+      ]
+    },
+    {
+      "name": "蔬菜播种机",
+      "indexes": [
+        1,
+        3,
+        19
+      ]
+    },
+    {
+      "name": "智能巡护",
+      "indexes": [
+        1,
+        2,
+        18
+      ]
+    },
+    {
+      "name": "排风机",
+      "indexes": [
+        1,
+        3,
+        4,
+        10
+      ]
+    },
+    {
+      "name": "蔬菜大棚一体化",
+      "indexes": [
+        1,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "name": "果园喷洒器",
+      "indexes": [
+        1,
+        4,
+        18
+      ]
+    },
+    {
+      "name": "5G果园网关",
+      "indexes": [
+        1,
+        3,
+        17
+      ]
+    },
+    {
+      "name": "水情监测器",
+      "indexes": [
+        15,
+        14,
+        9,
+        8,
+        5
+      ]
+    },
+    {
+      "name": "渔业网关",
+      "indexes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "name": "渔业投食设备",
+      "indexes": [
+        19,
+        3,
+        1
+      ]
+    },
+    {
+      "name": "收割机",
+      "indexes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "LoRaWAN无线压力报警器",
+      "indexes": [
+        0,
+        1,
+        20,
+        21
+      ]
+    },
+    {
+      "name": "LoRaWAN室外型基站网关",
+      "indexes": [
+        0,
+        22,
+        21
+      ]
+    },
+    {
+      "name": "4G监测网关",
+      "indexes": [
+        21,
+        17,
+        1
+      ]
+    },
+    {
+      "name": "多功能微耕机",
+      "indexes": [
+        23,
+        3,
+        1
+      ]
+    },
+    {
+      "name": "多功能开沟机",
+      "indexes": [
+        23,
+        3,
+        1
+      ]
+    }
+  ],
+  "models": [
+    {
+      "name": "version",
+      "val": "v1.0.3",
+      "desc": "版本"
+    },
+    {
+      "name": "status",
+      "desc": "状态"
+    },
+    {
+      "name": "manufacturer",
+      "desc": "厂家"
+    },
+    {
+      "name": "electricity",
+      "val": "50",
+      "desc": "电量"
+    },
+    {
+      "name": "flow",
+      "val": "100",
+      "desc": "流量"
+    },
+    {
+      "name": "PH",
+      "val": "5",
+      "desc": "酸碱度"
+    },
+    {
+      "name": "Light",
+      "desc": "光照度"
+    },
+    {
+      "name": "Humidity",
+      "desc": "湿度"
+    },
+    {
+      "name": "CO2",
+      "val": "5",
+      "desc": "二氧化碳"
+    },
+    {
+      "name": "Flow",
+      "desc": "流量"
+    },
+    {
+      "name": "Speed",
+      "desc": "风速"
+    },
+    {
+      "name": "windDirection",
+      "val": "西北",
+      "desc": "风向"
+    },
+    {
+      "name": "Light",
+      "desc": "光照度"
+    },
+    {
+      "name": "Humidity",
+      "desc": "湿度"
+    },
+    {
+      "name": "CO2",
+      "val": "5",
+      "desc": "二氧化碳"
+    },
+    {
+      "name": "condition",
+      "val": "良好",
+      "desc": "监测情况"
+    },
+    {
+      "name": "lightDuration",
+      "desc": "光照时长"
+    },
+    {
+      "name": "memory",
+      "val": "1G",
+      "desc": "内存",
+      "index": 17
+    },
+    {
+      "name": "network",
+      "val": "4G",
+      "desc": "网络",
+      "index": 18
+    },
+    {
+      "name": "remaining",
+      "val": "50%",
+      "desc": "剩余量",
+      "index": 19
+    },
+    {
+      "name": "range",
+      "val": "0-10KPa",
+      "desc": "量程",
+      "index": 20
+    },
+    {
+      "name": "voltage",
+      "val": "10",
+      "desc": "电压",
+      "index": 21
+    },
+    {
+      "name": "communication",
+      "val": "4G/wifi",
+      "desc": "通信",
+      "index": 22
+    },
+    {
+      "name": "horsepower",
+      "val": "6.5",
+      "desc": "马力",
+      "index": 23
+    }
+  ]
+}

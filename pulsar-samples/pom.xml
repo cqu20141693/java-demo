@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>java-demo</artifactId>
+    <groupId>com.wujt</groupId>
+    <version>${revision}</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>pulsar-samples</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>pulsar-core</module>
+    <module>pulsar-spring-boot-starter</module>
+    <module>pulsar-app</module>
+    <module>pulsar-starter-test</module>
+    <module>pulsar-common-model</module>
+  </modules>
+
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <pulsar-version>2.8.0</pulsar-version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.pulsar</groupId>
+        <artifactId>pulsar-client</artifactId>
+        <version>${pulsar-version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.pulsar</groupId>
+        <artifactId>pulsar-client-admin</artifactId>
+        <version>${pulsar-version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+
+</project>

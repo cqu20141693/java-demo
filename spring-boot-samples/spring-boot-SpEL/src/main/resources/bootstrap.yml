@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-SpEL
+pulsar:
+  random: ${random.value}
+  uuid: ${random.uuid}
+  name: gow

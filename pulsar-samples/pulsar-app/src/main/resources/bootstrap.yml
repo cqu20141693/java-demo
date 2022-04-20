@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: pulsar-app
+  profiles:
+    active: native

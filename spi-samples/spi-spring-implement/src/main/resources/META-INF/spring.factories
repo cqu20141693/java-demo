@@ -1,0 +1,2 @@
+com.wujt.spi.Developer=com.gow.spring.spi.impl.GoDeveloper
+com.wujt.spi.MessageProducer=com.gow.spring.spi.impl.RabbitMQProducer

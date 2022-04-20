@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 172.30.203.22:8848
+        file-extension: yml
+      discovery:
+        server-addr: 172.30.203.22:8848
+        register-enabled: false
+    loadbalancer:
+      retry:
+        retryOnAllOperations: true

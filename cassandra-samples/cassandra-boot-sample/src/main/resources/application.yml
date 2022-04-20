@@ -1,0 +1,20 @@
+server:
+  port: 19042
+spring:
+  data:
+    cassandra:
+      contact-points: 192.168.96.134
+      port: 9042
+      keyspace-name: cc_iot
+#      username: cassandra
+#      password: cassandra
+      schema-action: create_if_not_exists
+
+springdoc:
+  version: 3.0.1
+  swagger-ui:
+    path: /swagger-ui-custom.html
+
+#logging:
+#  level:
+#    root: DEBUG

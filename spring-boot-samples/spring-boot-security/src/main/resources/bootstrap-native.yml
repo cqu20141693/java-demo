@@ -1,0 +1,20 @@
+server:
+  port: 9100
+gow:
+  jwt:
+    bearer: agriculture
+    token: AUTH_TOKEN
+    token-exp: 86400000
+    token-secret-base64: VMrFFQNsBYM84hH+EysC6A==
+    refresh-token: REFRESH_AUTH_TOKEN
+    refresh-token-exp: 604800000
+    refresh-token-secret-base64: lfrSSQNs9hI84hH+msOC6A=0
+    max-refresh-token-exp: 1296000000
+    http-only: false
+    security: false
+    delay-time: 60000
+logging:
+  level:
+    org:
+      springframework:
+        security: debug

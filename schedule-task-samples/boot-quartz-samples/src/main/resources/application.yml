@@ -1,0 +1,19 @@
+server:
+  port: 8094
+#logging:
+#  level: debug
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package:  job
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#开发环境
+spring:
+  datasource:
+    url: jdbc:mysql://mysql-mysqlha-write.mysql.svc.cluster.local:3306/wjt_quartz?useLegacyDatetimeCode=false&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      connection-init-sql: SET NAMES utf8mb4

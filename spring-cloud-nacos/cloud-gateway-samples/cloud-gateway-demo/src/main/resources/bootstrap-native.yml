@@ -1,0 +1,32 @@
+server:
+  port: 9999
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.30.203.22:8848
+        register-enabled: true
+      config:
+        server-addr: 172.30.203.22:8848
+        file-extension: yml
+#        extension-configs[0]:
+#          data-id: gateway-service-auth.yml
+#          group: DEFAULT_GROUP
+#          refresh: true
+#        extension-configs[1]:
+#          data-id: gateway-service-route.yml
+#          group: DEFAULT_GROUP
+#          refresh: true
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+com:
+  gow:
+    gateway:
+      non-auth:
+        paths:
+          - /api/test/greet
+      web-client-uri:
+        user-auth-uri: http://cloud-backend-service/api/auth/userAuth
+        d-device-auth-uri: http://cloud-backend-service/api/auth/deviceAuth

@@ -1,0 +1,56 @@
+server:
+  port: 10011
+# 单节点配置 RedisStandaloneConfiguration
+#spring:
+#  redis:
+#    host: 10.204.2.6
+#    port: 6379
+#    password: root#123
+#    database: 0
+# 集群配置 ： RedisClusterConfiguration 需要服务端开启cluster ，通知部署cluster方案
+#spring:
+#  redis:
+#    cluster:
+#      nodes:
+#        - 10.204.2.6:6379
+#        - 10.204.37.49:6379
+#      max-redirects: 10
+#    password: root#123
+# 哨兵配置： RedisSentinelConfiguration
+spring:
+  redis:
+#    password: cyxt#123
+    password: root@123
+    database: 1
+    sentinel:
+      master: mymaster
+#      nodes: 192.168.1.234:32379,192.168.1.234:32380,192.168.1.234:32381
+      nodes: 192.168.1.236:26379,192.168.1.236:26380,192.168.1.236:26381
+#      nodes: 192.168.1.236:26379
+    lettuce: # 连接池配置，需要添加pool2依赖
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1
+    timeout: 30000
+gow:
+  redis:
+    #    password: cyxt#123
+    password: root@123
+    database: 1
+    sentinel:
+      master: mymaster
+      #      nodes: 192.168.1.234:32379,192.168.1.234:32380,192.168.1.234:32381
+      nodes: 192.168.1.236:26379,192.168.1.236:26380,192.168.1.236:26381
+    #      nodes: 192.168.1.236:26379
+    lettuce: # 连接池配置，需要添加pool2依赖
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1
+    timeout: 30000
+redis:
+  key-expire-event:
+    topic: __keyspace@1__:user*

@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    username: admin
+    password: cc@123
+    hikari:
+      minimum-idle: 2
+      #连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)
+      maximum-pool-size: 4
+      auto-commit: false
+      connection-timeout: 30000
+      idle-timeout: 60000
+      max-lifetime: 180000
+      readOnly: false
+      jdbc-url: jdbc:mysql://172.19.214.113:3306/batch?useLegacyDatetimeCode=false&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    url: jdbc:mysql://172.19.214.113:3306/batch?useLegacyDatetimeCode=false&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+  batch:
+    initialize-schema: always   # 使用JDBC的时候为了避免不存在表结果需要配置此内容
+    job:
+      enabled: true
+mybatis:
+  mapper-locations: classpath:mybatis/mappers/*.xml
+  config-location: classpath:mybatis/mybatis-config.xml

@@ -1,0 +1,5 @@
+server:
+  port: 11012
+springfox:
+  documentation:
+    enabled: false #在生产环境中必须关闭swagger

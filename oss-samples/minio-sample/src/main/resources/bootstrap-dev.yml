@@ -1,0 +1,6 @@
+cc:
+  minio:
+    end-point: http://10.113.75.63:9090
+    request-url: http://10.113.75.63:9090
+    access-key: ga-ea
+    secret-key: ga-ea@123#@!.
