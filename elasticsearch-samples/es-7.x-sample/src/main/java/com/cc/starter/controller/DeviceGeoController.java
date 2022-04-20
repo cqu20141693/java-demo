@@ -6,9 +6,11 @@ import com.cc.core.index.DeviceGeo;
 import com.cc.core.repository.DeviceGeoRepository;
 import com.cc.core.service.DeviceService;
 import com.cc.starter.controller.domain.vo.DeviceGeoReq;
+import com.cc.starter.controller.domain.vo.DeviceGeoUpdateReq;
 import com.cc.starter.controller.domain.vo.GeoDistanceReq;
 import com.gow.common.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.query.ByQueryResponse;
 import org.springframework.data.geo.Point;
 import org.springframework.web.bind.annotation.*;
@@ -60,13 +62,18 @@ public class DeviceGeoController {
         List<DeviceGeo> queries = deviceGeoRepository.queryByDeviceId(deviceId);
         List<DeviceGeo> finds = deviceGeoRepository.findByDeviceId(deviceId);
         List<DeviceGeo> gets = deviceGeoRepository.getByDeviceId(deviceId);
-        List<DeviceGeo> search=deviceService.searchByDeviceId(deviceId);
+        List<DeviceGeo> search = deviceService.searchByDeviceId(deviceId);
         return Result.ok(queries);
     }
 
     @PostMapping("/updateNameById")
     public Result<String> updateNameById(@RequestParam("id") String id, @RequestParam("name") String name) {
         return Result.ok(deviceService.updateNameById(id, name));
+    }
+
+    @PostMapping("/upsert")
+    public Result<String> upsert(@RequestBody DeviceGeoUpdateReq req) {
+        return Result.ok(deviceService.upsert(req));
     }
 
     @PostMapping("/updateNameByDeviceId")
@@ -76,7 +83,16 @@ public class DeviceGeoController {
 
     @PostMapping("/geoSearch")
     public Object geoSearch(@RequestBody JSONObject geoJson) {
-        return Result.ok(deviceService.geoSearch(geoJson));
+        return Result.ok(deviceService.geoPointSearch(geoJson));
+    }
+    @PostMapping("/geoShapeSearch")
+    public Object geoShapeSearch(@RequestBody JSONObject geoJson) {
+        return Result.ok(deviceService.geoShapeSearch(geoJson));
+    }
+    @PostMapping("/searchByNameAndDeviceIdAndTag")
+    public Result<List<DeviceGeo>> searchByNameAndDeviceIdAndTag(@RequestParam("deviceId") String deviceId, @RequestParam("name") String name,
+                                                                 @RequestParam("tag") String tag, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        return Result.ok(deviceService.searchByNameAndDeviceIdAndTag(name, deviceId, tag, PageRequest.of(page, size)));
     }
 
     @GetMapping("/geoSearchByDistance")

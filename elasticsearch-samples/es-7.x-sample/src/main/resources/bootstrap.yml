@@ -2,7 +2,7 @@ server:
   port: 19200
 cc:
   elasticsearch:
-    uris: http://192.168.96.183:19200
+    uris: http://192.168.96.185:19200
     read-timeout: 30s
 spring:
   elasticsearch:
