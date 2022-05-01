@@ -111,7 +111,7 @@ public final class MqttClientImpl implements MqttClient {
         if (clientConfig.getBindAddress() != null) {
             bootstrap.localAddress(clientConfig.getBindAddress());
         }
-        bootstrap.handler(new MqttChannelInitializer(connectFuture, host, port, clientConfig.getSslContext(),clientConfig.getSslEngineConsumer()));
+        bootstrap.handler(new MqttChannelInitializer(connectFuture, host, port, clientConfig.getSslContext(), clientConfig.getSslEngineConsumer()));
 
         ChannelFuture future = bootstrap.connect();
         future.addListener((ChannelFutureListener) f -> {
@@ -524,6 +524,11 @@ public final class MqttClientImpl implements MqttClient {
 
                 SSLEngine engine = sslContext.newEngine(ch.alloc(), host, port);
                 sslEngineConsumer.accept(engine);
+                //是否客户端模式 - 客户端模式
+                engine.setUseClientMode(true);
+                //是否需要验证客户端（双向验证） - 单向验证
+                engine.setNeedClientAuth(false);
+
                 ch.pipeline().addFirst("ssl", new SslHandler(engine));
             }
 

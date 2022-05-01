@@ -1,0 +1,163 @@
+{
+  "charging": {
+    "body": {
+      "mode": 1,
+      "port": 1,
+      "status": 1,
+      "value": 0
+    },
+    "checkSum": -105,
+    "endFlag": 0,
+    "flag": 0,
+    "header": {
+      "encryption": 0,
+      "messageId": 50,
+      "sequence": 0,
+      "token": -29670,
+      "version": {
+        "fix": 23,
+        "main": 1,
+        "sub": 2
+      }
+    }
+  },
+  "chargingReply": {
+    "body": {
+      "sequence": 0,
+      "success": 0
+    },
+    "checkSum": -106,
+    "endFlag": 0,
+    "flag": 0,
+    "header": {
+      "encryption": 0,
+      "messageId": -32718,
+      "sequence": 0,
+      "token": -29670,
+      "version": {
+        "fix": 23,
+        "main": 1,
+        "sub": 2
+      }
+    }
+  },
+  "login": {
+    "body": {
+      "baseStation": "eAPLNuvbMf",
+      "bluetooth": "nJOjfKBTjPy1oeqanu91",
+      "chargeGunNum": 1,
+      "chargeGuns": [
+        {
+          "id": "YPW3uHYMYWiO2Y3yhPunbJJT9fZmUF7n",
+          "port": 0
+        }
+      ],
+      "chargePointId": "RWPiSU03zXqOiuBqymYglcPLSMb65KYZ",
+      "chargePointType": "direct",
+      "community": "u3lHLzYpE9",
+      "iCCID": "agYLmxfG0Ga0f4oU8JmDb6yh",
+      "iMDI": "rWTiL72C2IMdouW7",
+      "manufacturer": {
+        "power": "unknown",
+        "productType": "alternate_private1",
+        "type": "ling_co"
+      },
+      "network": "fourG",
+      "total": 156,
+      "version": {
+        "fix": 23,
+        "main": 1,
+        "sub": 2
+      }
+    },
+    "checkSum": 49,
+    "endFlag": 0,
+    "flag": 0,
+    "header": {
+      "encryption": 0,
+      "messageId": 1,
+      "sequence": 0,
+      "version": {
+        "fix": 23,
+        "main": 1,
+        "sub": 2
+      }
+    },
+    "length": 156
+  },
+  "loginReply": {
+    "body": {
+      "intervalPrice": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "keepalive": 120,
+      "reportInterval": 60,
+      "sequence": 0,
+      "success": 0,
+      "timeSeconds": 1651314167,
+      "token": 10145
+    },
+    "checkSum": -79,
+    "endFlag": 0,
+    "flag": 0,
+    "header": {
+      "encryption": 0,
+      "messageId": -32767,
+      "sequence": 0,
+      "token": 10145,
+      "version": {
+        "fix": 23,
+        "main": 1,
+        "sub": 2
+      }
+    },
+    "length": 109
+  }
+}

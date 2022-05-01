@@ -19,6 +19,8 @@
         <module>java-io-samples</module>
         <module>codec-protocol-service</module>
       <module>sipstack-example</module>
+        <module>media-sample</module>
+        <module>ocpp-sample</module>
     </modules>
 
 </project>
