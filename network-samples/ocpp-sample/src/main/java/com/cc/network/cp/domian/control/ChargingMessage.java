@@ -1,9 +1,12 @@
-package com.cc.network.cp.domian;
+package com.cc.network.cp.domian.control;
 
+import com.cc.network.cp.domian.Body;
 import com.cc.network.cp.domian.enums.MessageType;
-import lombok.AllArgsConstructor;
+import com.gow.codec.bytes.DataType;
+import com.gow.codec.bytes.serializable.ObjectField;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static com.cc.network.cp.utils.DataParseUtils.intToBytes;
 import static com.cc.network.cp.utils.DataParseUtils.parseUnsignedBytes;
@@ -14,16 +17,21 @@ import static com.cc.network.cp.utils.DataParseUtils.parseUnsignedBytes;
  */
 @Data
 @Builder
+@NoArgsConstructor
 public class ChargingMessage implements Body {
     //充电枪端口号
-    private byte port;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte port;
     //0 –停止充电 1- 开始充电
-    private byte status;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte status;
     // 1 – 充满为止 2 - 按金额充 3 – 按电量冲 4 – 按时间充
-    private byte mode;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte mode;
     // DWORD
     //充满：填0 金额：精确到0.01元 电量：精确到0.001度 o时间：精确到分
-    private int value;
+    @ObjectField(dataType = DataType.INT)
+    private Integer value;
 
     public ChargingMessage(byte port, byte status, byte mode, int value) {
         this.port = port;

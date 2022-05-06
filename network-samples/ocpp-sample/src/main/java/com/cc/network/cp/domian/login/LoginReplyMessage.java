@@ -1,8 +1,13 @@
-package com.cc.network.cp.domian;
+package com.cc.network.cp.domian.login;
 
+import com.cc.network.cp.domian.Body;
+import com.cc.network.cp.domian.TokenGenerator;
 import com.cc.network.cp.domian.enums.MessageType;
+import com.gow.codec.bytes.DataType;
+import com.gow.codec.bytes.serializable.ObjectField;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static com.cc.network.cp.utils.DataParseUtils.*;
 
@@ -12,26 +17,33 @@ import static com.cc.network.cp.utils.DataParseUtils.*;
  */
 @Data
 @Builder
+@NoArgsConstructor
 public class LoginReplyMessage implements Body {
-
-    private short sequence;
+    @ObjectField(dataType = DataType.SHORT)
+    private Short sequence;
     //BYTE 0：成功/确认 1：失败 -- 平台记录此次登录，充电桩红灯，并在60秒后重新登录测试
     // 4：无相关联的桩或桩静态数据 5：失败—蓝牙未绑定过。
-    private byte success;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte success;
     // WORD
-    private short token;
+    @ObjectField(dataType = DataType.SHORT)
+    private Short token;
     // DWORD 到当前的秒数，可做时间同步用
-    private int timeSeconds;
+    @ObjectField(dataType = DataType.INT)
+    private Integer timeSeconds;
     // WORD 心跳秒
-    private short keepalive;
+    @ObjectField(dataType = DataType.SHORT)
+    private Short keepalive;
     // WORD 充电实时数据间隔
-    private short reportInterval;
+    @ObjectField(dataType = DataType.SHORT)
+    private Short reportInterval;
     // WORD[48] 区间电价 30 分钟一个区间
-    private short[] intervalPrice;
+    @ObjectField
+    private Short[] intervalPrice;
 
     private static final int total = 109;
 
-    public LoginReplyMessage(short sequence, byte success, short token, int timeSeconds, short keepalive, short reportInterval, short[] intervalPrice) {
+    public LoginReplyMessage(short sequence, byte success, short token, int timeSeconds, short keepalive, short reportInterval, Short[] intervalPrice) {
         this.sequence = sequence;
         this.success = success;
         assert TokenGenerator.validate(token) : "token value error";
@@ -40,6 +52,14 @@ public class LoginReplyMessage implements Body {
         this.keepalive = keepalive;
         this.reportInterval = reportInterval;
         this.intervalPrice = intervalPrice;
+    }
+
+    public static Short[] getShorts(short[] intervalPrice) {
+        Short[] shorts = new Short[intervalPrice.length];
+        for (int i = 0; i < intervalPrice.length; i++) {
+            shorts[i] = intervalPrice[i];
+        }
+        return shorts;
     }
 
     @Override
@@ -78,7 +98,7 @@ public class LoginReplyMessage implements Body {
                 .timeSeconds((int) (parseUnsignedBytes(new byte[]{body[index++], body[index++], body[index++], body[index++]})))
                 .keepalive(bytesToShort(body[index++], body[index++]))
                 .reportInterval(bytesToShort(body[index++], body[index++]))
-                .intervalPrice(bytesToShorts(body,index,total))
+                .intervalPrice(getShorts(bytesToShorts(body, index, total)))
                 .build();
     }
 

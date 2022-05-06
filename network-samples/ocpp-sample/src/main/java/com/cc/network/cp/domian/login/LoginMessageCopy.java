@@ -1,9 +1,12 @@
-package com.cc.network.cp.domian;
+package com.cc.network.cp.domian.login;
 
+import com.cc.network.cp.domian.Body;
+import com.cc.network.cp.domian.Version;
 import com.cc.network.cp.domian.enums.ChargePointType;
 import com.cc.network.cp.domian.enums.MessageType;
 import com.cc.network.cp.domian.enums.NetworkType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -15,7 +18,8 @@ import static com.cc.network.cp.utils.DataParseUtils.*;
  * @author wcc
  */
 @Data
-public class LoginMessage implements Body {
+@NoArgsConstructor
+public class LoginMessageCopy implements Body {
     // 充电桩id,BYTE[32],ASCII
     private String chargePointId;
     private ChargePointType chargePointType;
@@ -129,36 +133,36 @@ public class LoginMessage implements Body {
             return this;
         }
 
-        public LoginMessage build() {
-            LoginMessage loginMessage = new LoginMessage();
+        public LoginMessageCopy build() {
+            LoginMessageCopy loginMessageCopy = new LoginMessageCopy();
             check();
             int total = 0;
-            loginMessage.setChargePointId(this.chargePointId);
+            loginMessageCopy.setChargePointId(this.chargePointId);
             total += 32;
-            loginMessage.setChargePointType(this.type);
+            loginMessageCopy.setChargePointType(this.type);
             total += 1;
-            loginMessage.setVersion(this.version);
+            loginMessageCopy.setVersion(this.version);
             total += 3;
-            loginMessage.setManufacturer(this.manufacturer);
+            loginMessageCopy.setManufacturer(this.manufacturer);
             total += 5;
-            loginMessage.setChargeGunNum((byte) this.chargeGuns.size());
+            loginMessageCopy.setChargeGunNum((byte) this.chargeGuns.size());
             total += 1;
-            loginMessage.setChargeGuns(this.chargeGuns);
+            loginMessageCopy.setChargeGuns(this.chargeGuns);
             total += chargeGuns.size() * 33;
-            loginMessage.setNetwork(this.network);
+            loginMessageCopy.setNetwork(this.network);
             total += 1;
-            loginMessage.setCommunity(this.community);
+            loginMessageCopy.setCommunity(this.community);
             total += 10;
-            loginMessage.setBaseStation(this.baseStation);
+            loginMessageCopy.setBaseStation(this.baseStation);
             total += 10;
-            loginMessage.setICCID(this.ICCID);
+            loginMessageCopy.setICCID(this.ICCID);
             total += 24;
-            loginMessage.setIMDI(this.IMDI);
+            loginMessageCopy.setIMDI(this.IMDI);
             total += 16;
-            loginMessage.setBluetooth(this.bluetooth);
+            loginMessageCopy.setBluetooth(this.bluetooth);
             total += 20;
-            loginMessage.setTotal(total);
-            return loginMessage;
+            loginMessageCopy.setTotal(total);
+            return loginMessageCopy;
         }
 
         private void check() {
@@ -222,7 +226,7 @@ public class LoginMessage implements Body {
 
     }
 
-    public static LoginMessage decode(byte[] body) {
+    public static LoginMessageCopy decode(byte[] body) {
         int index = 0;
         byte[] bytes = getBytes(index, index + 32, body);
         index += 32;
@@ -249,12 +253,16 @@ public class LoginMessage implements Body {
         index += 24;
         String IMDI = new String(getBytes(index, index + 16, body), StandardCharsets.US_ASCII);
         index += 16;
-        String bluetooth = new String(getBytes(index, index + 20, body), StandardCharsets.US_ASCII);
-        index += 20;
+        String bluetooth = new String(new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+        // 蓝牙不支持时，直接使用默认值
         if (index != body.length) {
-            throw new RuntimeException("login message decode failed");
+            bluetooth = new String(getBytes(index, index + 20, body), StandardCharsets.US_ASCII);
+            index += 20;
+            if (index != body.length) {
+                throw new RuntimeException("login message decode failed");
+            }
         }
-        return LoginMessage.builder()
+        return LoginMessageCopy.builder()
                 .chargePointId(chargePointId)
                 .type(type)
                 .version(version)

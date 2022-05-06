@@ -16,6 +16,8 @@
     <module>boot-validation-sample</module>
     <module>boot-oss-sample</module>
     <module>boot-2.4.5-dependencies</module>
+    <module>boot-basic-common</module>
+    <module>boot-maven-plugin</module>
     <module>boot-grpc-sample</module>
     <module>boot-test-service</module>
     <module>spring-boot-websocket</module>

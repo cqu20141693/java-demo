@@ -1,8 +1,16 @@
 package com.cc.network.cp;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cc.network.cp.domian.*;
+import com.cc.network.cp.domian.Body;
+import com.cc.network.cp.domian.TokenGenerator;
+import com.cc.network.cp.domian.Version;
+import com.cc.network.cp.domian.control.ChargingMessage;
+import com.cc.network.cp.domian.control.ChargingReplyMessage;
 import com.cc.network.cp.domian.enums.*;
+import com.cc.network.cp.domian.login.ChargeGun;
+import com.cc.network.cp.domian.login.LoginMessageCopy;
+import com.cc.network.cp.domian.login.LoginReplyMessage;
+import com.cc.network.cp.domian.login.ManufacturerInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
@@ -42,7 +50,7 @@ class CPMessageTest {
         String ICCID = RandomStringUtils.randomAlphanumeric(24);
         String IMDI = RandomStringUtils.randomAlphanumeric(16);
         String bluetooth = RandomStringUtils.randomAlphanumeric(20);
-        Body message = LoginMessage.builder().chargePointId(chargePointId).type(type)
+        Body message = LoginMessageCopy.builder().chargePointId(chargePointId).type(type)
                 .version(ChargePointVersion).manufacturer(info).chargeGuns(chargeGuns).network(NetworkType.fourG)
                 .community(community).baseStation(baseStation).ICCID(ICCID).IMDI(IMDI).bluetooth(bluetooth)
                 .build();
@@ -90,7 +98,7 @@ class CPMessageTest {
         session.put(priceKey, getPriceByPlatform());
         Body reply = createReply(decodeMsg, (byte) 0, session);
         if (reply != null) {
-            CPMessage replyMsg = new CPMessage(flag, reply.getType(), seq, encryption, (short)session.get(KEY), version, reply);
+            CPMessage replyMsg = new CPMessage(flag, reply.getType(), seq, encryption, (short) session.get(KEY), version, reply);
             log.info("server create and send reply={}", JSONObject.toJSONString(replyMsg));
 
             //client receive reply
@@ -107,8 +115,8 @@ class CPMessageTest {
         return session;
     }
 
-    private short[] getPriceByPlatform() {
-        short[] shorts = new short[48];
+    private Short[] getPriceByPlatform() {
+        Short[] shorts = new Short[48];
         for (int i = 0; i < 48; i++) {
             shorts[i] = 0;
         }
@@ -125,7 +133,7 @@ class CPMessageTest {
                         .timeSeconds((int) (System.currentTimeMillis() / 1000))
                         .keepalive((short) session.get(keepaliveKey))
                         .reportInterval((Short) session.get(reportIntervalKey))
-                        .intervalPrice((short[]) session.get(priceKey))
+                        .intervalPrice((Short[]) session.get(priceKey))
                         .build();
             case CHARGING:
                 return ChargingReplyMessage.builder()
@@ -135,5 +143,19 @@ class CPMessageTest {
             default:
                 return null;
         }
+    }
+
+    @Test
+    public void test() {
+        String loginStr = "7E 00 01 00 00 00 00 00 01 02 13 00 88 38 36 37 35 34 32 30 35 35 37 37 32 37 31 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 02 00 5A 31 30 34 02 01 01 0E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 35 30 32 45 00 00 00 00 00 00 41 39 42 32 43 34 32 00 00 00 38 39 38 36 30 34 37 34 30 39 32 31 38 30 37 39 35 34 31 31 00 00 00 00 34 36 30 30 34 39 34 34 35 39 30 35 34 31 31 00 54 7E";
+        //String loginStr = "00 00 01 00 00 00 00 00 01 02 13 00 88 38 36 37 35 34 32 30 35 35 37 37 32 37 31 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 02 00 5A 31 30 34 02 01 01 0E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 35 30 32 45 00 00 00 00 00 00 41 39 42 32 43 34 32 00 00 00 38 39 38 36 30 34 37 34 30 39 32 31 38 30 37 39 35 34 31 31 00 00 00 00 34 36 30 30 34 39 34 34 35 39 30 35 34 31 31 00 54 00";
+        String[] split = loginStr.split(" ");
+        // String prefix = "0x";
+        byte[] bytes = new byte[split.length];
+        for (int i = 0; i < split.length; i++) {
+            bytes[i] = (byte) Short.parseShort(split[i], 16);
+        }
+        CPMessage decode = CPMessage.decode(bytes);
+        System.out.println(decode.getBody().getType());
     }
 }

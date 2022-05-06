@@ -1,5 +1,6 @@
-package com.cc.network.cp.domian;
+package com.cc.network.cp.domian.login;
 
+import com.cc.network.cp.domian.PayLoad;
 import com.cc.network.cp.domian.enums.ManufacturerType;
 import com.cc.network.cp.domian.enums.PowerType;
 import com.cc.network.cp.domian.enums.ProductType;

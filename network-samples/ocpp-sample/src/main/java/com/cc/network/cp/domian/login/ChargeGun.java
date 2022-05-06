@@ -1,17 +1,23 @@
-package com.cc.network.cp.domian;
+package com.cc.network.cp.domian.login;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.cc.network.cp.domian.PayLoad;
+import com.gow.codec.bytes.DataType;
+import com.gow.codec.bytes.serializable.ObjectField;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * wcc 2022/4/25
  */
 @Data
-public class ChargeGun implements PayLoad{
-    // ASCII码，32 充电枪唯一识别码。
-    private String id;
+@NoArgsConstructor
+public class ChargeGun implements PayLoad {
     // 枪端口
-    private byte port;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte port;
+    // ASCII码，32 充电枪唯一识别码。
+    @ObjectField(dataType = DataType.STRING, length = 32)
+    private String id;
 
     public ChargeGun(String id, byte port) {
         this.port = port;

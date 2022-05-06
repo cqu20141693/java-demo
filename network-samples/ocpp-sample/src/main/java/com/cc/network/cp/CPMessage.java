@@ -5,6 +5,8 @@ import com.cc.network.cp.domian.Body;
 import com.cc.network.cp.domian.TokenGenerator;
 import com.cc.network.cp.domian.Version;
 import com.cc.network.cp.domian.enums.MessageType;
+import com.gow.codec.bytes.DataType;
+import com.gow.codec.bytes.serializable.ObjectField;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import lombok.Data;
@@ -17,15 +19,30 @@ import static com.cc.network.cp.utils.DataParseUtils.*;
 @Data
 public class CPMessage {
     // 转义标识
-    private byte flag;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte flag;
+    @ObjectField
     private Header header;
-    private short length;
+    @ObjectField(dataType = DataType.SHORT)
+    private Short length;
+    @ObjectField(classMethod = "getBodyClass")
     private Body body;
-    private byte checkSum;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte checkSum;
     // 等于flag
-    private byte endFlag;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte endFlag;
     @JSONField(serialize = false)
     private int total;
+
+    public Class<?> getBodyClass() {
+        MessageType type = MessageType.parseByMessageId(header.getMessageId());
+        return type.getzClass();
+    }
+
+    public CPMessage() {
+    }
+
 
     public CPMessage(byte flag, MessageType type, int seq, byte encryption, Short token, Version version, Body body) {
         assert type != null : "type can not be null";
@@ -107,6 +124,8 @@ public class CPMessage {
         if (type != MessageType.LOGIN) {
             token = bytesToShort(payload[index++], payload[index++]);
             assert TokenGenerator.validate(token) : "token error";
+        } else {
+            index += 2;
         }
         Version version = new Version(payload[index++], payload[index++], payload[index++]);
         short length = bytesToShort(payload[index++], payload[index++]);

@@ -1,6 +1,7 @@
 package com.cc.network.cp.domian;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cc.network.cp.domian.login.ManufacturerInfo;
 import org.junit.jupiter.api.Test;
 
 class ManufacturerInfoTest {

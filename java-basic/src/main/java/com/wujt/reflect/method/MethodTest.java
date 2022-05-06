@@ -1,20 +1,23 @@
 package com.wujt.reflect.method;
 
+import org.springframework.core.DefaultParameterNameDiscoverer;
+
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import org.springframework.core.DefaultParameterNameDiscoverer;
 
 /**
  * Method
- *
+ * <p>
  * API:
  * 获取方法返回值类型
  * 获取方法名称
  * 获取方法参数以及参数的类型和名称和参数注解
  * 获取方法注解
+ * <p>
+ * 反射调用静态方法： 第一个参数为null
  *
  * @author gow
  * @date 2022/1/18

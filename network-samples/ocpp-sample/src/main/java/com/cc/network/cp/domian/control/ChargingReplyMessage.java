@@ -1,8 +1,12 @@
-package com.cc.network.cp.domian;
+package com.cc.network.cp.domian.control;
 
+import com.cc.network.cp.domian.Body;
 import com.cc.network.cp.domian.enums.MessageType;
+import com.gow.codec.bytes.DataType;
+import com.gow.codec.bytes.serializable.ObjectField;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static com.cc.network.cp.utils.DataParseUtils.bytesToShort;
 import static com.cc.network.cp.utils.DataParseUtils.shortToBytes;
@@ -13,11 +17,14 @@ import static com.cc.network.cp.utils.DataParseUtils.shortToBytes;
  */
 @Data
 @Builder
+@NoArgsConstructor
 public class ChargingReplyMessage implements Body {
     //WORD 对应的终端消息的流水号
-    private short sequence;
+    @ObjectField(dataType = DataType.SHORT)
+    private Short sequence;
     //BYTE 0：成功 1：失败
-    private byte success;
+    @ObjectField(dataType = DataType.BYTE)
+    private Byte success;
 
     public ChargingReplyMessage(short sequence, byte success) {
         this.sequence = sequence;

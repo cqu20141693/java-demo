@@ -1,0 +1,71 @@
+version: '2'
+services:
+  redis:
+    image: redis:5.0.4
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./data/redis:/data"
+    command: redis-server --appendonly yes
+    environment:
+      - TZ=Asia/Shanghai
+  elasticsearch:
+    image: elasticsearch:6.8.10
+    container_name: es6
+    environment:
+      ES_JAVA_OPTS: -Djava.net.preferIPv4Stack=true -Xms1g -Xmx1g
+      transport.host: 0.0.0.0
+      discovery.type: single-node
+      bootstrap.memory_lock: "true"
+      discovery.zen.minimum_master_nodes: 1
+      discovery.zen.ping.unicast.hosts: elasticsearch
+      TZ: Asia/Shanghai
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+  postgres:
+    image: postgres:11-alpine
+    container_name: pg11
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./data/postgres:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: jetlinks
+      POSTGRES_DB: jetlinks
+      TZ: Asia/Shanghai
+  nacos:
+    image: nacos/nacos-server:2.0.2
+    container_name: nacos
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+    volumes:
+      - ./data/nacos/logs/:/home/nacos/logs
+      - ./data/nacos/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+  cassandra:
+    image: cassandra:3.11.10
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      TZ: Asia/Shanghai
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+  mysql:
+    container_name: mysql
+    image: nacos/nacos-mysql:8.0.16
+    env_file:
+      - ../env/mysql.env
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
