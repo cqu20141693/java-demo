@@ -31,18 +31,38 @@ public class Utils {
         return (CPMessage) decodeContext.getObj();
     }
 
+    public static CPMessage getDefaultLoginReply() {
+        String start = "7E 80 01 00 02 00 5D 6A 01 02 13 00 6d 00 00 00 5D 6A 62 46 9A 65 00 3C 00 1E ";
+        String end = "9C 7E";
+        for (int i = 0; i < 48; i++) {
+            start = start + "00 00 ";
+        }
+        String loginStr = start + end;
+        DecodeContext decodeContext = getCPMessage(loginStr);
+
+        return (CPMessage) decodeContext.getObj();
+    }
+
     public static CPMessage getDefaultPing() {
-        String pingStr="7E 00 03 00 26 00 01 01 01 02 13 00 26 00 00 00 00 00 00 00 00 01 01 01 00 00 00 00 80 00 00 00 03 08 A2 00 00 00 00 00 06 1A 80 00 06 1A 80 00 06 1A 80 B4 7E";
+        String pingStr = "7E 00 03 00 26 00 01 01 01 02 13 00 26 00 00 00 00 00 00 00 00 01 01 01 00 00 00 00 80 00 00 00 03 08 A2 00 00 00 00 00 06 1A 80 00 06 1A 80 00 06 1A 80 B4 7E";
         DecodeContext cpMessage = getCPMessage(pingStr);
         return (CPMessage) cpMessage.getObj();
     }
-    public static CPMessage getDefaultEnableCharging(){
-        String charging="7E 00 32 9B 49 00 01 01 01 01 6A 00 07 01 01 01 00 00 00 00 01 7E";
+
+    public static CPMessage getDefaultEnableCharging() {
+        String charging = "7E 00 32 9B 49 00 01 01 01 01 6A 00 07 01 01 01 00 00 00 00 01 7E";
         DecodeContext cpMessage = getCPMessage(charging);
         return (CPMessage) cpMessage.getObj();
     }
-    public static CPMessage getDefaultStopCharging(){
-        String charging="7E 00 32 9B 4F 00 01 01 01 01 6A 00 07 01 00 01 00 00 00 00 00 7E";
+
+    public static CPMessage getDefaultChargingReply() {
+        String charging = "7E 80 32 00 97 00 01 01 01 02 04 00 03 01 F5 00 F4 7E";
+        DecodeContext cpMessage = getCPMessage(charging);
+        return (CPMessage) cpMessage.getObj();
+    }
+
+    public static CPMessage getDefaultStopCharging() {
+        String charging = "7E 00 32 9B 4F 00 01 01 01 01 6A 00 07 01 00 01 00 00 00 00 00 7E";
         DecodeContext cpMessage = getCPMessage(charging);
         return (CPMessage) cpMessage.getObj();
     }

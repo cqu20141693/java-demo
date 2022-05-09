@@ -24,8 +24,10 @@ class OCPPTest {
             bytes[i] = (byte) Short.parseShort(split[i], 16);
         }
         DecodeContext decodeContext = OBJECT.deserialize(bytes, 0, 0, new CPMessage());
-        LoginMessage login = (LoginMessage) ((CPMessage) decodeContext.getObj()).getBody();
-
+        CPMessage obj = (CPMessage) decodeContext.getObj();
+        LoginMessage login = (LoginMessage) obj.getBody();
+        byte[] serialize = OBJECT.serialize(obj);
+        log.info("message={}", JSONObject.toJSONString(login));
     }
 
     @Test
@@ -34,7 +36,6 @@ class OCPPTest {
         byte[] serialize = OBJECT.serialize(defaultPing);
         System.out.println(JSONObject.toJSONString(defaultPing));
     }
-
     @Test
     public void testCharging() {
         CPMessage enable = getDefaultEnableCharging();
@@ -44,4 +45,19 @@ class OCPPTest {
         byte[] serialize1 = OBJECT.serialize(stop);
         System.out.println(JSONObject.toJSONString(stop));
     }
+
+    @Test
+    public void testChargingReply() {
+        CPMessage reply = getDefaultChargingReply();
+        byte[] serialize = OBJECT.serialize(reply);
+        log.info("testChargingReply={}", JSONObject.toJSONString(reply.getBody()));
+    }
+
+    @Test
+    public void testLoginReply() {
+        CPMessage reply = getDefaultLoginReply();
+        byte[] serialize = OBJECT.serialize(reply);
+        log.info("testLoginReply={}", JSONObject.toJSONString(reply.getBody()));
+    }
+
 }

@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Device -> DeviceGateway: network connect
+note right : MqttServer/TcpServer
+DeviceGateway -> Connection: accept connect
+note right : TcpDeviceSession,MqttConnectSession
+DeviceGateway --> Protocol: Authentication and Codec message
+note right : ProtocolSupport
+DeviceGateway--> DeviceGatewayHelper : session and strategy
+DeviceGatewayHelper--> MessageHandler : handler message
+note left: DeviceMessageConnector
+MessageHandler--> EventBus : getTopic and publish
+note left: @SubScribe event
+EventBus--> Subscriber : Writer and EventHandler
+note left:timeSeriesWriter,MQ Writer,rule engine,event handler
+@enduml

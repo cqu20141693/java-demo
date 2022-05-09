@@ -22,7 +22,7 @@ public class PingMessage {
     @ObjectField(dataType = DataType.BYTE)
     private Byte gunNums;
     // 充电枪数量
-    @ObjectField(dataType = DataType.STRING, length = 8)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 8)
     private String description;
 
     @ObjectField(dataType = DataType.OBJECT, loopFieldName = "gunNums")

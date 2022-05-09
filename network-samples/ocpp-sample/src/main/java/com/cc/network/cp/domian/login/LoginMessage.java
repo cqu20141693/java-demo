@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class LoginMessage implements Body {
     // 充电桩id,BYTE[32],ASCII
-    @ObjectField(dataType = DataType.STRING, length = 32)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 32)
     private String chargePointId;
     // ChargePointType
     @ObjectField(dataType = DataType.BYTE)
@@ -37,19 +37,19 @@ public class LoginMessage implements Body {
     @ObjectField(dataType = DataType.BYTE)
     private Byte network;
     // BYTE[10]  ASCII码
-    @ObjectField(dataType = DataType.STRING, length = 10)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 10)
     private String community;
     // BYTE[10]  ASCII码
-    @ObjectField(dataType = DataType.STRING, length = 10)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 10)
     private String baseStation;
     // BYTE[24]  ASCII码
-    @ObjectField(dataType = DataType.STRING, length = 24)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 24)
     private String ICCID;
     // BYTE[16]  ASCII码
-    @ObjectField(dataType = DataType.STRING, length = 16)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 16)
     private String IMDI;
     // BYTE[20]  ASCII码
-    @ObjectField(dataType = DataType.STRING, length = 20)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 20)
     private String bluetooth;
 
     @Override

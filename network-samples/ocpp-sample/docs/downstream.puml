@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Developer -> DeviceOperator: new Message
+note left : DefaultDeviceOperator
+DeviceOperator -> MessageSender: send message
+note left : DefaultDeviceMessageSender
+MessageSender --> MessageHandler: Authentication Response
+note left : DefaultSendToDeviceMessageHandler
+MessageHandler-> DeviceSession: session manager
+DeviceSession-> Connection : send message
+note left : codec,send
+@enduml

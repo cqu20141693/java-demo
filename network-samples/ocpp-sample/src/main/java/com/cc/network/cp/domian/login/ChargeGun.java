@@ -16,7 +16,7 @@ public class ChargeGun implements PayLoad {
     @ObjectField(dataType = DataType.BYTE)
     private Byte port;
     // ASCII码，32 充电枪唯一识别码。
-    @ObjectField(dataType = DataType.STRING, length = 32)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 32)
     private String id;
 
     public ChargeGun(String id, byte port) {

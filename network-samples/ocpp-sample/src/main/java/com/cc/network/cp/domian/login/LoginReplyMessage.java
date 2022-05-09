@@ -38,7 +38,7 @@ public class LoginReplyMessage implements Body {
     @ObjectField(dataType = DataType.SHORT)
     private Short reportInterval;
     // WORD[48] 区间电价 30 分钟一个区间
-    @ObjectField
+    @ObjectField(loop = 48)
     private Short[] intervalPrice;
 
     private static final int total = 109;

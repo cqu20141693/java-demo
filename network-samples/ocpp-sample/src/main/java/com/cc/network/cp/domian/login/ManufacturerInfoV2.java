@@ -15,11 +15,11 @@ public class ManufacturerInfoV2 {
     /**
      * {@link ManufacturerType}
      */
-    @ObjectField(dataType = DataType.STRING, length = 2)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 2)
     private String type;
     // （2byte ASCII码）：“01”（交流私桩1型），“02”（交流运营1型），“03”（直流桩1型），“04”（三相交流1型
     //ProductType
-    @ObjectField(dataType = DataType.STRING, length = 2)
+    @ObjectField(dataType = DataType.ASCII_LEN, length = 2)
     private String productType;
     // 1 byte, 功率 PowerType
     @ObjectField(dataType = DataType.BYTE)

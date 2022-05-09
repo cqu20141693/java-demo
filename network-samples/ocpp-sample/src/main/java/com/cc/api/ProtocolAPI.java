@@ -3,10 +3,7 @@ package com.cc.api;
 import com.cc.App;
 import com.cc.network.cp.CPMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.cc.client.Utils.*;
 
@@ -31,6 +28,14 @@ public class ProtocolAPI {
     @PostMapping("enableCharge")
     public String enableCharge() {
         CPMessage enable = getDefaultEnableCharging();
+        app.getChannel().ifPresent(channel -> channel.writeAndFlush(enable));
+        return "success";
+    }
+
+    @PostMapping("chargingReply")
+    public String chargingReply(@RequestParam("num") Short num) {
+        CPMessage enable = getDefaultChargingReply();
+        enable.getHeader().setSequence(num);
         app.getChannel().ifPresent(channel -> channel.writeAndFlush(enable));
         return "success";
     }

@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+developer -> DeviceGateway : crete gate
+note left: config NetWork,Protocol
+DeviceGateway -> NetWork: start network Server
+note left : MqttServer/TcpServer
+DeviceGateway-> Connection : accept connect
+DeviceGateway-> Packet : handle message
+DeviceGateway -> Protocol: network message codec protocol
+note right : ProtocolSupport
+DeviceGateway --> Authenticator: Authentication Response
+DeviceGateway --> Session: session create and registry manager
+note left: support by DeviceGatewayHelper or Gateway
+DeviceGateway--> MessageHandler
+note right : DeviceMessageConnector
+
+@enduml

@@ -22,6 +22,6 @@ public class PongMessage {
     private Integer time;
     @ObjectField(dataType = DataType.ENUM)
     private ChargePointType type;
-    @ObjectField(dataType = DataType.STRING)
+    @ObjectField(dataType = DataType.ASCII_LEN)
     private String chargePointId;
 }

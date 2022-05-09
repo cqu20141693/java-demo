@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Developer -> DeviceOperator: new Message
+note left : DefaultDeviceOperator
+DeviceOperator -> FunctionMessageSender: create,validate FunctionInvokeMessage
+note left : DefaultFunctionInvokeMessageSender
+FunctionMessageSender-->MessageSender :  config Header(forget,async,sync,timeout)
+note left: DefaultDeviceMessageSender
+MessageSender--> Broker: create reply hook and broker
+note right: StandaloneDeviceMessageBroker
+Broker --> MessageHandler: get session,async/error reply
+note left : DefaultSendToDeviceMessageHandler
+MessageHandler-> DeviceSession: protocol codec
+DeviceSession-> Connection : send message
+Connection->DeviceGateway : receive reply message
+DeviceGateway--> DecodedClientMessageHandler : create DeviceMessageReply and broker
+note left: codec,DeviceMessageConnector
+DecodedClientMessageHandler-->MessageHandler : broker and handler reply
+note left: StandaloneDeviceMessageBroker
+MessageHandler--> MessageSender : reply stream
+@enduml
