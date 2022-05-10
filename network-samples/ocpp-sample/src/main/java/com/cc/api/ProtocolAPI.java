@@ -1,6 +1,6 @@
 package com.cc.api;
 
-import com.cc.App;
+import com.cc.OCPPApp;
 import com.cc.network.cp.CPMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import static com.cc.client.Utils.*;
 public class ProtocolAPI {
 
     @Autowired
-    private App app;
+    private OCPPApp app;
 
     @PostMapping("ping")
     public String ping() {

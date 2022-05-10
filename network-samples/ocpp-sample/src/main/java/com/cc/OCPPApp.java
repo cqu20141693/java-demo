@@ -1,9 +1,10 @@
 package com.cc;
 
 import com.cc.client.KeepaliveHandler;
-import com.cc.client.ProtocolDecoder;
-import com.cc.client.ProtocolEncoder;
+import com.cc.network.codec.ProtocolDecoder;
+import com.cc.network.codec.ProtocolEncoder;
 import com.cc.client.Session;
+import com.cc.network.codec.ZDFrameDecoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -12,7 +13,6 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioChannelOption;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 import static com.cc.client.Utils.getDefaultLoginMessage;
 
 @SpringBootApplication
-public class App implements CommandLineRunner {
+public class OCPPApp implements CommandLineRunner {
     public Optional<Channel> getChannel() {
         return channels.keySet().stream().findFirst();
     }
@@ -39,7 +39,7 @@ public class App implements CommandLineRunner {
     private Map<Channel, Session> channels = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(OCPPApp.class, args);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class App implements CommandLineRunner {
                     ChannelPipeline pipeline = ch.pipeline();
 
                     pipeline.addLast(new IdleStateHandler(0, 0, 10, TimeUnit.MINUTES));
-                    pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 11, 2, 2, 0));
+                    pipeline.addLast(new ZDFrameDecoder());
                     pipeline.addLast(new ProtocolDecoder());
                     pipeline.addLast(new ProtocolEncoder());
                     pipeline.addLast(loggingHandler);

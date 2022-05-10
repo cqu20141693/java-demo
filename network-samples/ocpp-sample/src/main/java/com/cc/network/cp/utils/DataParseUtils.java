@@ -48,6 +48,7 @@ public class DataParseUtils {
 
     public static boolean checkSum(byte[] body, byte[] token, byte sum) {
         byte result = getSum(body, token);
+        // 或者异或==0,一个数异或本身为零
         return result == sum;
     }
 

@@ -134,6 +134,7 @@
     <module>cassandra-samples</module>
       <module>applets-tasks</module>
       <module>oss-samples</module>
+      <module>flowable-samples</module>
   </modules>
 
 
