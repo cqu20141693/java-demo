@@ -135,6 +135,7 @@
       <module>applets-tasks</module>
       <module>oss-samples</module>
       <module>flowable-samples</module>
+      <module>things</module>
   </modules>
 
 

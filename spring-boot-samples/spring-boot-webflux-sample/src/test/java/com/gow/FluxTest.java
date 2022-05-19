@@ -1,6 +1,7 @@
 package com.gow;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
@@ -9,10 +10,12 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author gow 2021/06/03
  */
+@Slf4j
 public class FluxTest {
     public static void main(String[] args) throws InterruptedException {
         // 通过给定值创建Flux ,
@@ -168,6 +171,54 @@ public class FluxTest {
         singleOrEmpty(list);
         list.add(2);
         singleOrEmpty(list);
+
+
+    }
+
+    @Test
+    public void testBuffer() {
+        AtomicInteger counter = new AtomicInteger(0);
+        Flux.from(Flux.
+                generate(
+                        () -> 0,
+                        (i, sink) -> {
+                            sink.next(i);
+                            if (i == 2000000) sink.complete();
+                            return ++i;
+                        },
+                        state -> {
+                            if (state == 0 || state == 2000000 - 1) {
+                                log.warn("the final state is:{}", state);
+                            }
+                        }
+                )
+        ).bufferTimeout(200, Duration.ofMillis(100)).subscribe(list -> {
+            log.info("counter={} size={}", counter.getAndIncrement(), list.size());
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Test
+    public void testDo() {
+        Flux.just(1, 2)
+                .doFirst(() -> log.info("do first"))
+                .doOnSubscribe(subscription -> {
+                    log.info("do on subscribe={}", subscription);
+                })
+                .doOnEach(index -> {
+                    log.info("do on each index={}", index);
+                })
+                .doOnNext(next -> {
+                    log.info("do on next {}", next);
+                    Mono.just(1).subscribe(e -> log.info("do on next mono"));
+                })
+                .doOnComplete(() -> log.info("do on complete"))
+                .subscribe(System.out::println);
+
     }
 
     private static void singleOrEmpty(ArrayList<Integer> list) {

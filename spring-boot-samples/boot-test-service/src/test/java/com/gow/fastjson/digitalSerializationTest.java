@@ -5,9 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.gow.codec.model.EncodeTypeEnum;
 import com.gow.test.fastjson.model.ThirdUpMsgModel;
-import lombok.Data;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 /**
  * @author gow
@@ -64,7 +65,7 @@ public class digitalSerializationTest {
         model.setData(l);
         jsonString = JSONObject.toJSONString(model);
         model1 = JSONObject.parseObject(jsonString, ThirdUpMsgModel.class);
-       Object longData = ThirdUpMsgModel.getData(EncodeTypeEnum.TYPE_LONG, model1.getData());
+        Object longData = ThirdUpMsgModel.getData(EncodeTypeEnum.TYPE_LONG, model1.getData());
         assert longData instanceof Long : "false";
 
         long l1 = System.currentTimeMillis();
@@ -72,8 +73,15 @@ public class digitalSerializationTest {
         model.setData(l1);
         jsonString = JSONObject.toJSONString(model);
         model1 = JSONObject.parseObject(jsonString, ThirdUpMsgModel.class);
-         longData = ThirdUpMsgModel.getData(EncodeTypeEnum.TYPE_LONG, model1.getData());
+        longData = ThirdUpMsgModel.getData(EncodeTypeEnum.TYPE_LONG, model1.getData());
         assert longData instanceof Long : "false";
     }
 
+    @Test
+    @DisplayName("fastjson parse array")
+    public void parseArrayStr() {
+
+        List<EvCharger> evChargers = JSONObject.parseArray("[{\"id\":\"\\u000E\",\"port\":1}]", EvCharger.class);
+        System.out.println(evChargers.size());
+    }
 }

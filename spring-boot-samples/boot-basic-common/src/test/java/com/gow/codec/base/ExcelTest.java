@@ -20,8 +20,8 @@ public class ExcelTest {
     @Test
     public void testExcelRead() {
 
-        List<MockModel> ts = EasyExcelUtil.syncReadModel("filePath", MockModel.class);
-        System.out.println(ts.size());
+        //List<MockModel> ts = EasyExcelUtil.syncReadModel("filePath", MockModel.class);
+//        System.out.println(ts.size());
     }
 
 }
