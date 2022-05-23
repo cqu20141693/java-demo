@@ -1,0 +1,12 @@
+[nginx]
+192.168.96.243
+
+[redis]
+192.168.96.243
+
+[jdk:children]
+nginx
+
+[docker:children]
+redis
+
