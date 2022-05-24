@@ -1,6 +1,6 @@
 package com.wujt.server.mqtt.stream;
 
-import com.wujt.server.netty.NettyUtils;
+import com.cc.netwok.utils.NettyUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -45,7 +45,8 @@ public abstract class DownStreamBase {
                         break;
                 }
                 boolean writable = channel.isWritable();
-                logger.debug("clientId={} topic={} payload={} qos={},writable={}", NettyUtils.clientId(channel), topic, new String(payload, UTF_8), qos, writable);
+                String clientId = NettyUtils.strAttr(channel, NettyUtils.ATTR_CLIENT_ID);
+                logger.debug("clientId={} topic={} payload={} qos={},writable={}", clientId, topic, new String(payload, UTF_8), qos, writable);
                 if (channel.isActive() && writable) {
                     if (actionBeforePush != null && !actionBeforePush.getAsBoolean()) {
                         //存在推送前的操作定义，且操作不成功

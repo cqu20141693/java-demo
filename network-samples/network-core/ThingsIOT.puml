@@ -1,0 +1,86 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+package "ThingsIOT" {
+  node "Device" {
+      [串口]
+      [OPC]
+      [MQTT Device]
+      [IPC/NVR]
+      [充电桩]
+  }
+ node "Edge Gateway"{
+       [OPC]
+       [Modbus]
+       [Snap7]
+       [国标]
+       [Edge MQTT]
+
+ }
+   cloud "Cloud Gateway"{
+     [Cloud MQTT]
+     [Websocket]
+     [Coap]
+     [GB28181]
+     [OCPP]
+   }
+   cloud "Cloud Third"{
+        [ctwing]
+        [dueros]
+        [aliyun]
+        [onenet]
+   }
+    cloud "Cloud Things Model"{
+        [Device Message]
+        [Device Topology/Proxy]
+        [Device Things]
+        [Device Group]
+        [Device Tag]
+        [Device OTA]
+    }
+    cloud "MQ"{
+        [Local Event Bus]
+        [Redis/Kafka]
+    }
+    cloud "Storage"{
+    database [Time Series DB]
+    database [Mysql]
+    database [ES]
+    database [Redis]
+    database [LakeHouse]
+    }
+    cloud "Analysis"{
+    [Rule Engine]
+    [Real Time Analysis]
+    [Big Data Analysis]
+    }
+}
+
+[OPC] --> [Modbus]
+[OPC] --> [Snap7]
+[串口] --> [国标]
+[IPC/NVR]-->[GB28181]
+[MQTT Device]-->[Edge MQTT]
+[MQTT Device]-->[Cloud MQTT]
+[充电桩]-->[OCPP]
+
+[Snap7]-->[Edge MQTT]
+[Modbus]-->[Edge MQTT]
+[国标]-->[Edge MQTT]
+[Edge MQTT]-->[Cloud MQTT]
+
+[GB28181]--> [Device Message]
+[OCPP]--> [Device Message]
+[Cloud MQTT]-->[Device Message]
+[Device Message]-->[Device Things]
+[Device Things]--> [Redis/Kafka]
+[Redis/Kafka]-->[Local Event Bus]
+
+[Local Event Bus]-->[Time Series DB]
+[Redis/Kafka]-->[Real Time Analysis]
+[Redis/Kafka]-->[Rule Engine]
+[Redis/Kafka]-->[Big Data Analysis]
+[Redis/Kafka]-->[LakeHouse]
+
+@enduml

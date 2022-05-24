@@ -1,7 +1,8 @@
 package com.wujt.server.netty.handler;
 
+import com.cc.netwok.domain.ChannelState;
 import com.wujt.server.mqtt.stream.UpStreamHandler;
-import com.wujt.server.netty.NettyUtils;
+import com.cc.netwok.utils.NettyUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -33,8 +34,8 @@ public class MqttProtocolHandler extends ChannelInboundHandlerAdapter {
         }
         MqttMessage msg = (MqttMessage) message;
         MqttMessageType messageType = msg.fixedHeader().messageType();
-        if (messageType != MqttMessageType.CONNECT || messageType != MqttMessageType.DISCONNECT || messageType != MqttMessageType.AUTH) {
-            if (!NettyUtils.connectSend(ctx.channel())) {
+        if (messageType != MqttMessageType.CONNECT && messageType != MqttMessageType.AUTH) {
+            if (NettyUtils.intAttr(ctx.channel(), NettyUtils.ATTR_CHANNEL_STATE) == ChannelState.AUTHED.getState()) {
                 log.error("the client send other message before MQTT Client.{}", ctx.channel());
                 ctx.channel().close();
                 return;
@@ -51,7 +52,7 @@ public class MqttProtocolHandler extends ChannelInboundHandlerAdapter {
                 upStreamHandler.handlePubAck(ctx.channel(), (MqttPubAckMessage) msg);
                 break;
             case DISCONNECT:
-                upStreamHandler.handleDisconnect(ctx.channel(),msg);
+                upStreamHandler.handleDisconnect(ctx.channel(), msg);
                 break;
             case PINGREQ:
                 upStreamHandler.handlePingReq(ctx.channel(), msg);

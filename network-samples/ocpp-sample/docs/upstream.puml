@@ -16,4 +16,8 @@ MessageHandler--> EventBus : getTopic and publish
 note left: @SubScribe event
 EventBus--> Subscriber : Writer and EventHandler
 note left:timeSeriesWriter,MQ Writer,rule engine,event handler
+WriterConnector--> DeviceDataService: update latest, storage strategy
+note left: DefaultDeviceDataService
+DeviceDataService --> DeviceDataStoragePolicy : save data
+note left:
 @enduml

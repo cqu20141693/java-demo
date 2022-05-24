@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+package "Cloud Gateway" {
+  [Network]
+  [Network Config]
+  }
+@enduml

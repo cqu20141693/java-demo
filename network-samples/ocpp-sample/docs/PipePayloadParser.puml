@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+PipePayloadParser --> directMapper: direct(Function<Buffer, Buffer>)
+note left: payload first handle buffer
+PipePayloadParser --> fixed: direct(Function<Buffer, Buffer>)
+
+
+@enduml

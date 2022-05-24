@@ -1,7 +1,8 @@
 package com.wujt.server.netty;
 
+import com.cc.netwok.handler.ProtocolIdleStateHandler;
+import com.cc.netwok.handler.UserEventHandler;
 import com.wujt.config.MqttProtocolConfig;
-import com.wujt.server.netty.handler.MqttIdleEventHandler;
 import com.wujt.server.netty.handler.MqttProtocolHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
@@ -18,13 +19,13 @@ import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.mqtt.MqttDecoder;
 import io.netty.handler.codec.mqtt.MqttEncoder;
-import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wujt
@@ -72,14 +73,18 @@ public class MqttBrokerAcceptor {
                         new WebSocketServerProtocolHandler("/mqtt", "mqtt,mqtt.5"));
                 pipeline.addLast("ws2bytebufDecoder", new WebSocketFrameToByteBufDecoder());
                 pipeline.addLast("bytebuf2wsEncoder", new ByteBufToWebSocketFrameEncoder());
-                pipeline.addFirst("idleStateHandler", new IdleStateHandler(10, 0, 0));
-                pipeline.addAfter("idleStateHandler", "idleEventHandler", new MqttIdleEventHandler());
-                pipeline.addLast("decoder", new MqttDecoder());
-                pipeline.addLast("encoder", MqttEncoder.INSTANCE);
-                pipeline.addLast("handler", handler);
+                pipelineInit(pipeline);
             }
         });
         log.info("Started websocket on host: {}, port {}", host, port);
+    }
+
+    private void pipelineInit(ChannelPipeline pipeline) {
+        pipeline.addLast("decoder", new MqttDecoder());
+        pipeline.addFirst("idleStateHandler", new ProtocolIdleStateHandler(0, 0, 120, TimeUnit.SECONDS));
+        pipeline.addAfter("idleStateHandler", "idleEventHandler", new UserEventHandler());
+        pipeline.addLast("encoder", MqttEncoder.INSTANCE);
+        pipeline.addLast("handler", handler);
     }
 
 
@@ -89,23 +94,7 @@ public class MqttBrokerAcceptor {
         initFactory(host, port, new AbstractPipelineInitializer() {
             @Override
             void init(ChannelPipeline pipeline) {
-                // netty 自带的idle 检查机制其实是对每一个channel 启动了一个定时任务，检查是空闲时间是否超过设置时间，超过则触发一次userEvent；
-                // 同时利用channel active 事件进行初始化定时任务，利用read,write 事件更新最新的读写时间
-                // 同时继承进出处理器
-                // 后续在连接后重新根据协议配置更新handler
-                pipeline.addFirst("idleStateHandler", new IdleStateHandler(0, 0, 60));
-
-                // 自定义的一个idle uerEvent 事件处理器，一般是关闭链路连接，链路管理的一种机制
-                // 只需要进出in处理器就会被调用userEventTriggered方法
-                pipeline.addAfter("idleStateHandler", "idleEventHandler", new MqttIdleEventHandler());
-                // pipeline.addFirst("bytemetrics", new BytesMetricsHandler(m_bytesMetricsCollector));
-                // 传输层上传数据到channel中时，将会调用In处理器中的read方法,这里主要是对二进制数据进行读包处理
-                pipeline.addLast("decoder", new MqttDecoder());
-                //pipeline.addLast("metrics", new MessageMetricsHandler(m_metricsCollector));
-                pipeline.addLast("handler", handler);
-
-                // 当channel 调用write 事件时，会调用out处理器进行数据的封装包数据，应用层包数据（mqtt协议）
-                pipeline.addLast("encoder", MqttEncoder.INSTANCE);
+                pipelineInit(pipeline);
             }
         });
         log.info("Started TCP on host: {}, port {}", host, port);

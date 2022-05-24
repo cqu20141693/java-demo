@@ -1,3 +1,7 @@
+server:
+  port: 19001
 wcc:
   occp:
     port: 9000
+    publicIp: 127.0.0.1
+    publicPort: 9000

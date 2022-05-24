@@ -14,4 +14,10 @@ import lombok.Data;
 public class DecodeContext {
     private Object obj;
     private int offset;
+    private Boolean success;
+
+    public boolean success() {
+        return success == null || success;
+    }
+
 }

@@ -1,16 +1,16 @@
 package com.wujt.server.mqtt.stream.impl;
 
 import com.wujt.config.MqttProtocolConfig;
+import com.wujt.server.executor.ProcessExecutorGroup;
 import com.wujt.server.mqtt.domain.client.MqttClientInfo;
 import com.wujt.server.mqtt.domian.ConnectionDescriptor;
 import com.wujt.server.mqtt.domian.status.ConnectStatusHandler;
 import com.wujt.server.mqtt.domian.store.relation.ConnectRelation;
-import com.wujt.server.executor.ProcessExecutorGroup;
 import com.wujt.server.mqtt.stream.DownStreamHandler;
 import com.wujt.server.mqtt.stream.UpStreamHandler;
 import com.wujt.server.mqtt.util.MqttPropsUtils;
 import com.wujt.server.mqtt.util.topic.SystemTopicEnum;
-import com.wujt.server.netty.NettyUtils;
+import com.cc.netwok.utils.NettyUtils;
 import com.wujt.server.spi.processor.ExtendProcessor;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -121,7 +121,7 @@ public class UpStreamHandlerImpl implements UpStreamHandler {
 
     @Override
     public void handlePublish(Channel channel, MqttPublishMessage msg) {
-        String clientId = NettyUtils.clientId(channel);
+        String clientId = NettyUtils.strAttr(channel, NettyUtils.ATTR_CLIENT_ID);
         if (StringUtils.isEmpty(clientId)) {
             log.error("channel {} clientId is Empty!", channel);
             String message = "clientId is empty";
@@ -258,7 +258,7 @@ public class UpStreamHandlerImpl implements UpStreamHandler {
 
     @Override
     public void handlePingReq(Channel channel, MqttMessage msg) {
-        String clientId = NettyUtils.clientId(channel);
+        String clientId = NettyUtils.strAttr(channel, NettyUtils.ATTR_CLIENT_ID);
         if (clientId == null) {
             log.info("server not find clientId in channel={}", channel);
             connectStatusHandler.disconnect(channel, "server not find clientId in channel");
@@ -270,7 +270,7 @@ public class UpStreamHandlerImpl implements UpStreamHandler {
 
     @Override
     public void handleUnsubscribe(Channel channel, MqttUnsubscribeMessage msg) {
-        String clientId = NettyUtils.clientId(channel);
+        String clientId = NettyUtils.strAttr(channel, NettyUtils.ATTR_CLIENT_ID);
         if (!mqttConfig.isEnableSubscribe()) {
             log.info("this broker dons't enable subscribe, the connect will disconnect,clientId={},chan={}", clientId, channel);
 
@@ -313,7 +313,7 @@ public class UpStreamHandlerImpl implements UpStreamHandler {
     @Override
     public void handleSubscribe(Channel channel, MqttSubscribeMessage msg) {
 
-        String clientId = NettyUtils.clientId(channel);
+        String clientId = NettyUtils.strAttr(channel, NettyUtils.ATTR_CLIENT_ID);
         if (!mqttConfig.isEnableSubscribe()) {
             log.info("this broker dons't enable subscribe, the connect will disconnect,clientId={},chan={}", clientId, channel);
 
