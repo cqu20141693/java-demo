@@ -3,3 +3,6 @@
 
 - name: "禁用SELINUX"
   selinux: state=disabled
+
+- name: "同步系统时区"
+  shell: mv /etc/localtime /etc/localtime.bak; ln -s /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime

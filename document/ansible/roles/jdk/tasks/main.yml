@@ -1,5 +1,5 @@
 - name: "解压安装包"
-  unarchive: src={{ playbook_dir }}/roles/jdk/files/{{ java_tar }} dest={{ jdk_dir }}
+  unarchive: src={{ playbook_dir }}/files/{{ java_tar }} dest={{ jdk_dir }}
   when: inventory_hostname in groups.jdk
 
 - name: "设置JAVA_HOME环境变量"
