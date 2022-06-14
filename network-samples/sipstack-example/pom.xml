@@ -5,11 +5,15 @@
   <parent>
     <artifactId>network-samples</artifactId>
     <groupId>com.wujt</groupId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>sipstack-example</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>sip-core</module>
+  </modules>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
