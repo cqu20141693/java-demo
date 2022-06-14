@@ -12,6 +12,9 @@
 
 #### Maven Helper
 
+#### PlatUML
+1. 配置graphviz
+
 ### idea setting
 
 #### keymap

@@ -1,7 +1,7 @@
 version: '2'
 services:
   srs:
-    image: registry.cn-shenzhen.aliyuncs.com/jetlinks/srs:v4.0.56
+    image: registry.cn-shenzhen.aliyuncs.com/wcc/srs:v4.0.56
     container_name: srs
     environment:
       - "TZ=Asia/Shanghai"

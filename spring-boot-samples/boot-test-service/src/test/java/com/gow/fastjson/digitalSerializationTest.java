@@ -5,9 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.gow.codec.model.EncodeTypeEnum;
 import com.gow.test.fastjson.model.ThirdUpMsgModel;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -83,5 +86,15 @@ public class digitalSerializationTest {
 
         List<EvCharger> evChargers = JSONObject.parseArray("[{\"id\":\"\\u000E\",\"port\":1}]", EvCharger.class);
         System.out.println(evChargers.size());
+    }
+
+    @SneakyThrows
+    @Test
+    @DisplayName("testInputStream")
+    public void testInputStream() {
+        String path = "D:\\temp\\test\\test\\metadata.json";
+        FileInputStream inputStream = new FileInputStream(path);
+        HashMap<String, Object> object = JSONObject.parseObject(inputStream, HashMap.class);
+        System.out.println(object);
     }
 }

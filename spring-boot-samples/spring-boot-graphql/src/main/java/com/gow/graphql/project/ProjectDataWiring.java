@@ -1,7 +1,7 @@
 package com.gow.graphql.project;
 
+import com.gow.graphql.repository.RuntimeWiringBuilderCustomizer;
 import graphql.schema.idl.RuntimeWiring;
-import org.springframework.graphql.boot.RuntimeWiringBuilderCustomizer;
 import org.springframework.stereotype.Component;
 
 /**

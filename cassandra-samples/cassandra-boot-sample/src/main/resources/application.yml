@@ -9,11 +9,19 @@ spring:
 #      username: cassandra
 #      password: cassandra
       schema-action: create_if_not_exists
-
+      request:
+        throttler:
+          max-concurrent-requests: 10000
+          type: concurrency_limiting
+          drain-interval: 10
+          max-requests-per-second: 10000
+      pool:
+        idle-timeout:
 springdoc:
   version: 3.0.1
   swagger-ui:
     path: /swagger-ui-custom.html
+
 
 #logging:
 #  level:

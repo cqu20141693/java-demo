@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+TEG.Device -> TEG
+note left : TEG.Device(边缘网关设备点位模型)
+TEG -> IOT: MQTT 数据交换
+note left : TEG(ThingEdgeGateway)
+IOT --> IOT.Things: 物模型
+note left : TEG(ThingEdgeGateway)
+
+@enduml

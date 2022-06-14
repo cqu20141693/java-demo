@@ -18,7 +18,7 @@ docker run -d -p 1935:1935 -p 1985:1985 -p 8080:8080 -p 5060:5060/udp -p 9000:90
 --name srs \
 --restart=always \
 -v /work/srs4/conf/:/usr/local/srs/conf/ \
-registry.cn-shenzhen.aliyuncs.com/jetlinks/srs ./objs/srs -c ./conf/push.gb28181.conf
+registry.cn-shenzhen.aliyuncs.com/wcc/srs ./objs/srs -c ./conf/push.gb28181.conf
 
 docker run --rm -it -p 1935:1935 -p 1985:1985 -p 8080:8080  -p 8000:8000/udp -p 5060:5060/udp -p 9000:9000/udp \
 -d --name srs  \

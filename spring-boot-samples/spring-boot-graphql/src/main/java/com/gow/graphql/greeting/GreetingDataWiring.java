@@ -1,16 +1,17 @@
 package com.gow.graphql.greeting;
 
-import static org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST;
+import com.gow.graphql.repository.RuntimeWiringBuilderCustomizer;
 import graphql.schema.idl.RuntimeWiring;
-import org.springframework.graphql.boot.RuntimeWiringBuilderCustomizer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import static org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST;
+
 /**
  * @author gow
  * @date 2021/7/11 0011
- *
+ * <p>
  * Servlet Filter that adds a Servlet request attribute.
  */
 @Component

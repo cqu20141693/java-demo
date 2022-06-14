@@ -1,59 +1,70 @@
 @startuml
 'https://plantuml.com/component-diagram
 
-
-package "ThingsIOT" {
-  node "Device" {
+package "ThingsIOT"{
+  node "Device" #C39BD3{
       [串口]
-      [OPC]
+      [PLC]
       [MQTT Device]
       [IPC/NVR]
       [充电桩]
   }
- node "Edge Gateway"{
+ node "Edge Gateway" #808B96{
        [OPC]
+       [LoRa]
        [Modbus]
        [Snap7]
        [国标]
-       [Edge MQTT]
+       [Edge MQTT] #gray
 
  }
-   cloud "Cloud Gateway"{
+   cloud "Cloud Gateway" #D98880 {
      [Cloud MQTT]
      [Websocket]
      [Coap]
-     [GB28181]
-     [OCPP]
+     [GB28181] #red
+     [OCPP] #red
+     [Subscribe Channel]
+     [Data Cloud Exchanger]
    }
-   cloud "Cloud Third"{
+   cloud "Cloud Third" 	#FFE4B5{
         [ctwing]
         [dueros]
         [aliyun]
         [onenet]
    }
-    cloud "Cloud Things Model"{
+    cloud "Cloud Things Model" #FFB6C1{
         [Device Message]
         [Device Topology/Proxy]
-        [Device Things]
+        [Device Things Model] #DA70D6
+        note right: 属性，事件，功能，标签
         [Device Group]
         [Device Tag]
+        [Virtual Device]
         [Device OTA]
     }
-    cloud "MQ"{
+    cloud "MQ" #9400D3{
+
         [Local Event Bus]
         [Redis/Kafka]
     }
-    cloud "Storage"{
+    left to right direction
+    cloud "Storage" #4169E1{
     database [Time Series DB]
+    note right of [Time Series DB]:InfluxDB，Cassandra
     database [Mysql]
     database [ES]
     database [Redis]
+    database [Hadoop]
     database [LakeHouse]
     }
-    cloud "Analysis"{
-    [Rule Engine]
+    cloud "Analysis" #85C1E9 {
+    [Rule Engine] 	#00FAFF
+    note right: Trigger,Process
     [Real Time Analysis]
+    note right: Flink,spark
     [Big Data Analysis]
+    note right: Hive,HBase,Iceberg,Hudi
     }
 }
 
@@ -73,8 +84,8 @@ package "ThingsIOT" {
 [GB28181]--> [Device Message]
 [OCPP]--> [Device Message]
 [Cloud MQTT]-->[Device Message]
-[Device Message]-->[Device Things]
-[Device Things]--> [Redis/Kafka]
+[Device Message]-->[Device Things Model]
+[Device Things Model]--> [Redis/Kafka]
 [Redis/Kafka]-->[Local Event Bus]
 
 [Local Event Bus]-->[Time Series DB]

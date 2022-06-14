@@ -2,6 +2,8 @@
 
 ### deploy
 
+[install and run](https://nightlies.apache.org/flink/flink-docs-release-1.15/docs/try-flink/local_installation/)
+
 #### standalone
 
 [集群standalone](https://blog.csdn.net/oMaFei/article/details/109575333)
@@ -36,4 +38,32 @@ docker run --rm -d --name=taskmanager --network flink-network --env JOB_MANAGER_
 
 ### flink 使用场景
 
+#### 数据分析监测
+
+1. 交易欺诈场景
+2. 服务内存泄露监测： 将服务的内存信息通过flink做分析，监测内存变化
+3. 用户账号异常： 通过分析用户的登录地址进行通知
+
+#### 实时报表
+
+1. real-time dashboard
+
+#### 数据清洗
+
+#### ETL
+
 ### flink CDC
+
+### flink connector
+
+### flink Table & SQL
+
+### flink Gelly(图计算)
+
+### flink CEP(复杂事件处理)
+
+### flink ML
+
+### flink Table Store
+
+[Flink 机器学习库](http://flink.iteblog.com/dev/libs/ml/index.html)

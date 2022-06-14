@@ -32,8 +32,8 @@ services:
     volumes:
       - "./data/postgres:/var/lib/postgresql/data"
     environment:
-      POSTGRES_PASSWORD: jetlinks
-      POSTGRES_DB: jetlinks
+      POSTGRES_PASSWORD: wcc
+      POSTGRES_DB: wcc
       TZ: Asia/Shanghai
   nacos:
     image: nacos/nacos-server:2.0.2

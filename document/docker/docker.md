@@ -4,6 +4,7 @@
 
 [Windows Docker 安装](https://www.runoob.com/docker/windows-docker-install.html)
 ![RUNOOB 图标](http://static.runoob.com/images/runoob-logo.png)
+
 ### linux 安装docker
 
 1. 卸载旧版本（如果之前安装过的话） yum remove docker docker-common docker-selinux docker-engine
@@ -41,17 +42,12 @@ systemctl daemon-reload && systemctl restart docker
 
 查看本地镜像
 
-#### docker search
-
-搜索镜像
-
-#### docker push
-
-推送镜像 docker push
-
 #### docker login
 
+``` 
+// 备注需要配置docker的镜像源insecure-registries
 docker login [ip:port]
+```
 
 #### docker search
 
@@ -65,11 +61,27 @@ docker search nginx
 docker pull docker.elastic.co/elasticsearch/elasticsearch:7.17.2
 ```
 
+#### docker tag
+
+```
+打本地tag
+docker tag local-image:tagname new-repo:tagname
+docker push new-repo:tagname
+```
+
+#### docker push
+
+``` 
+推送镜像 docker push
+docker push new-repo:tagname
+```
+
 #### docker image
 
 ```
 docker images : 列出本地镜像
 docker image rm containerId 删除镜像
+docker rmi repository:tag :删除指定仓库版本镜像
 ```
 
 #### docker run
@@ -78,17 +90,40 @@ docker image rm containerId 删除镜像
 
 docker rm es7
 
-docker run -d --name es7 -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "node.name=es7" -v /work/es/data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:7.17.2
+docker run -d --name es7 --cpus=1 -m 2g \
+-p 9200:9200 -p 9300:9300 \
+-e "discovery.type=single-node" -e "node.name=es7" \
+-v /work/es/data:/usr/share/elasticsearch/data docker.elastic.co/elasticsearch/elasticsearch:7.17.2
+
+
 ```
 
 #### docker logs
 
 ```
-docker logs -f es7
+ // 过滤name1|name2的日志 输出到log.txt
+docker logs -f es7 |grep 'name1|name2' >> log.txt
+// 查看最新两百条并持续查看
+docker logs -f --tail=200 es7 |grep -v 'nacos.client'
 ```
 
 #### docker exec
 
 ```
 docker exec -it es7 /bin/bash
+```
+
+#### docker save
+
+``` 
+docker save [options] images [images...]
+示例 
+docker save -o nginx.tar nginx:latest 
+```
+
+#### docker load
+
+``` 
+加载保存的镜像
+docker load -i {{ path }}/images/{{ image_name }}
 ```

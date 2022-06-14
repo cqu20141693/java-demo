@@ -1,10 +1,10 @@
 package com.wujt.com.wujt.extend.config;
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.crazycake.shiro.BaseRedisManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSentinelManager;
-import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
