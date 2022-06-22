@@ -1,6 +1,7 @@
 package com.wujt.kafka.admin;
 
 import com.google.common.collect.Lists;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewPartitions;
@@ -14,6 +15,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import static com.wujt.kafka.config.KafkaProperties.KAFKA_SERVER_ADDR;
+
 /**
  * @author wujt
  */
@@ -26,11 +29,15 @@ public class KafkaAdminClient {
     static {
 
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                "10.200.95.239:9092,10.200.108.175:9092,10.200.105.174:9092");
+                KAFKA_SERVER_ADDR);
 
         adminClient = AdminClient.create(props);
     }
 
+    @SneakyThrows
+    public static Set<String> listTopic() {
+        return adminClient.listTopics().names().get();
+    }
 
     // 新建topic
     public static boolean createTopic(String name, int numPartitions, short replicationFactor,

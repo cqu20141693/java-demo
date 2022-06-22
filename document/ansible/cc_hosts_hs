@@ -30,11 +30,22 @@ master_ip=192.168.96.140
 [redis_sentinel:vars]
 master_ip=192.168.96.137
 
+[zookeeper_cluster]
+192.168.96.137 myid=1
+192.168.96.140 myid=2
+192.168.96.237 myid=3
+
+[kafka_cluster]
+192.168.96.137 broker_id=1
+192.168.96.140 broker_id=2
+192.168.96.237 broker_id=3
+
 [minio]
 192.168.96.137
 192.168.96.140
 192.168.96.237
 192.168.96.136
+
 [jdk:children]
 elasticsearch_cluster
 cassandra_cluster

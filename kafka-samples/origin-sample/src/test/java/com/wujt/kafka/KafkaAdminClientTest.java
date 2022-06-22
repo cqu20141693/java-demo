@@ -6,12 +6,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.TopicDescription;
 import org.junit.Test;
 
+import java.util.Set;
+
 /**
  * @author wujt
  */
 @Slf4j
 public class KafkaAdminClientTest {
 
+    @Test
+    public void listTopic() {
+        Set<String> topic = KafkaAdminClient.listTopic();
+        log.info("topics={}", JSONObject.toJSONString(topic));
+    }
 
     @Test
     public void createTopic() {

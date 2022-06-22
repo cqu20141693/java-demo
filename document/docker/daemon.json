@@ -12,6 +12,9 @@
       "Soft": 64000
     }
   },
+  "registry-mirrors": [
+    "https://ustc-edu-cn.mirror.aliyuncs.com"
+  ],
   "insecure-registries": [
     "10.1.12.143:31104",
     "harbor.wcc.com:31104"

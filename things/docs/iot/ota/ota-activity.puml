@@ -1,0 +1,80 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+split
+    -[hidden]->
+:请求插件列表;
+:插件列表;
+:查看插件信息;
+: 插件详情页面;
+switch (table页)
+      case(应用网关)
+      : 应用网关列表;
+      case(驱动)
+      : 应用的驱动列表;
+endswitch
+
+stop
+split again
+  -[hidden]->
+  :ota升级;
+  switch (包类型？)
+  case(网关)
+  :网关升级包管理;
+  case(插件)
+  :插件升级包管理;
+  case(驱动)
+  :驱动升级包管理;
+  endswitch
+  :升级包管理页面;
+  :添加升级包;
+  :添加升级包页面;
+  :填写升级包基础信息;
+  :上传固件升级包;
+  :保存固件包;
+  :升级包管理页面;
+stop
+split again
+    -[hidden]->
+  :升级任务管理;
+  :新增升级任务;
+  :填写任务名称;
+  if(升级范围) then (全部设备)
+    :选择待升级设备版本;
+  else (定向升级)
+    :选择待升级网关设备;
+  endif
+  if(升级策略) then (定时升级)
+   :选择升级时间;
+  else (立即升级)
+  endif
+   :填写超时时间，下载次数和描述信息;
+   :保存发布升级任务;
+   :任务详情页面;
+   switch (页面操作)
+   case (刷新操作)
+    :更新升级任务列表;
+   case (关闭)
+    :关闭升级任务;
+   case (删除)
+   if (任务已关闭) then (yes)
+    :关闭升级任务;
+   else (no)
+    : 提示异常;
+   endif
+   case (编辑)
+    :编辑名称和描述;
+    :保存更新;
+   case (关闭)
+    :关闭升级任务;
+   case (升级设备)
+   split
+   :升级任务设备任务列表;
+   split again
+    :ID或名称查询设备任务;
+   end split
+   endswitch
+
+stop
+
+@enduml

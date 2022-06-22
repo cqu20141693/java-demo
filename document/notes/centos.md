@@ -77,12 +77,16 @@ systemctl enable mysqld.service
  
 ```
 
+### vi、vim
+
 #### 文件内容替换
 
 ``` 
 sed -i 's/Search_String/Replacement_String/g' Input_File
 
 ```
+
+#### dd 命令删除一整行，使用 . 命令会 ==重复删除当前行==。
 
 ### ssh 免密登录
 
@@ -179,4 +183,16 @@ top |grep mysql
 top -p PID
 ```
 
-###  
+### grep
+
+1. 搜索文件
+
+``` 
+grep file value ：搜索
+```
+
+2. -v : 排除
+
+``` 
+ ps -ef | grep zookeeper | grep -v ‘grep’ : 搜索zookeeper的启动命令，排查包括grep指令的
+```

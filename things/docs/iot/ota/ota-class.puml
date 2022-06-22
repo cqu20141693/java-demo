@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class DeviceFirmwareCategoryController
+class FirmwareUpgradeHistoryController
+class FirmwareController
+class FirmwareUpgradeTaskController
+class FirmwareService{
+    addFirmwareGateway()
+    addPluginFirmware()
+    addDriverGateway()
+
+}
+class FirmwareUpgradeTaskService{
+    createUpgradeTask()
+    fetchAllDevice()
+    closeFirmwareTask()
+    publishTaskUpgrade()
+}
+class FirmwareUpgradeHistoryService
+class DeviceCategoryService
+class LocalDeviceInstanceService
+class DeviceRegistry
+interface ScheduleExecutorService{
+    submit()
+    cancel()
+    reload()
+}
+interface GenericReactiveCrudService{
+    save()
+    findById()
+    delete()
+    update()
+    query()
+    queryPager()
+    count()
+}
+DeviceFirmwareCategoryController --> DeviceCategoryService :依赖
+DeviceCategoryService --|> GenericReactiveCrudService : 继承
+FirmwareUpgradeHistoryController --> FirmwareUpgradeHistoryService :依赖
+FirmwareUpgradeHistoryService --|> GenericReactiveCrudService : 继承
+FirmwareController --> FirmwareService :依赖
+FirmwareService --|>GenericReactiveCrudService :继承
+FirmwareUpgradeTaskController --> FirmwareUpgradeTaskService :依赖
+FirmwareUpgradeTaskController --> LocalDeviceInstanceService :依赖
+FirmwareUpgradeTaskService --> DeviceRegistry :依赖
+FirmwareUpgradeTaskService --> ScheduleExecutorService :依赖
+FirmwareUpgradeTaskService --|>GenericReactiveCrudService :继承
+
+@enduml

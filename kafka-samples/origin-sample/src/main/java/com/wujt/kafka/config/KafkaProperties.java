@@ -11,8 +11,6 @@ public class KafkaProperties {
     //kafka broker dev 地址
 //    public static final String KAFKA_SERVER_ADDR = "kafka-dev-outer-0.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-1.kafka-dev.svc.cluster.local:9092,kafka-dev-outer-2.kafka-dev.svc.cluster.local:9092";
     //kafka broker cq local 地址  : 使用时需要替换wujt为公司
-    public static String KAFKA_SERVER_ADDR = "kafka-dev-outer-0.kafka-dev.wujt.cq.in:9092," +
-            "kafka-dev-outer-1.kafka-dev.wujt.cq.in:9092," +
-            "kafka-dev-outer-2.kafka-dev.wujt.cq.in:9092";
+    public static String KAFKA_SERVER_ADDR = "192.168.96.140:9092";
 
 }

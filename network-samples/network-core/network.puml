@@ -5,5 +5,17 @@
 package "Cloud Gateway" {
   [Network]
   [Network Config]
+  [NetworkProvider]
   }
+  left to right direction
+  package "ServerNetwork" {
+
+        [Codec]
+         note right: Frame,Message
+        [Authenticator]
+        [MessageProtocol]
+        [SessionManager]
+    }
+
+
 @enduml
