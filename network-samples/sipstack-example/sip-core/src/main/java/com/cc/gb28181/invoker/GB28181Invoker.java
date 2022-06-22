@@ -28,7 +28,7 @@ public interface GB28181Invoker {
      * @param endAlarmTime       结束报警时间
      * @return void
      */
-    Void subscribe(@Nonnull GB28181Device device,
+    void subscribe(@Nonnull GB28181Device device,
                    int startAlarmPriority,
                    int endAlarmPriority,
                    @Nonnull String alarmMethod,
@@ -42,7 +42,7 @@ public interface GB28181Invoker {
      * @param command 控制指令
      * @return void
      */
-    Void deviceControl(GB28181Device device, DeviceControl command);
+    void deviceControl(GB28181Device device, DeviceControl command);
 
     /**
      * 获取设备详细信息
