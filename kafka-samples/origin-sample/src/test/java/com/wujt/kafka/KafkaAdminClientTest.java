@@ -22,7 +22,7 @@ public class KafkaAdminClientTest {
 
     @Test
     public void createTopic() {
-        String topic = "test-create";
+        String topic = "test";
         int partition = 1;
         short replication = 1;
         assert KafkaAdminClient.createTopic(topic, partition, replication, null);

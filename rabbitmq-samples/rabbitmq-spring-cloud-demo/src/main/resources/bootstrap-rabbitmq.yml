@@ -1,9 +1,13 @@
 spring:
   rabbitmq:
-    host: rabbit-dev-rabbitmq.devdb.svc.cluster.local
+    host: 192.168.96.161
     port: 5672
-    username: user
-    password: AB55VOZDGq
+    username: admin
+    password: cc@123456
     cache:
       channel:
         size: 50
+    # 开启发送确认
+    publisher-confirm-type: correlated
+    # 开启发送失败退回
+    publisher-returns: true

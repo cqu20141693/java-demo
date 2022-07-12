@@ -15,13 +15,13 @@ public class GB28181DeviceGateway implements MediaGateway {
     }
 
     @Override
-    public Void start() {
-        return null;
+    public void start() {
+
     }
 
     @Override
-    public Void syncChannel(String id) {
-        return null;
+    public void syncChannel(String id) {
+
     }
 
     @Override

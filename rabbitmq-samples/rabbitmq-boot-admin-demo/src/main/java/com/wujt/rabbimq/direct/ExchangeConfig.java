@@ -1,4 +1,4 @@
-package com.wujt.config;
+package com.wujt.rabbimq.direct;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -17,22 +17,30 @@ import org.springframework.context.annotation.Configuration;
 public class ExchangeConfig {
 
 
-    public static String exchangName = "topic-exchange";
-    public static String routingKey = "wujt.user";
-    public static String topicRoutingKey = "wujt.#";
+    public final static String DIRECT_EXCHANGE = "cc-direct-exchange";
+    public final static String routingKey = "cc.user";
+
+    public static String topicRoutingKey = "cc.#";
 
     /**
      * 定义交换机
      *
      * @return
      */
-    @Bean
+    @Bean(name = DIRECT_EXCHANGE)
     public TopicExchange exchange() {
-        return new TopicExchange(exchangName);
+        return new TopicExchange(DIRECT_EXCHANGE,false,true);
     }
 
+    /**
+     * 创建绑定
+     *
+     * @param queueMessages
+     * @param exchange
+     * @return
+     */
     @Bean
-    Binding bindingExchangeMessages(@Qualifier("messages") Queue queueMessages, TopicExchange exchange) {
+    Binding bindingExchangeMessages(@Qualifier("userQueue") Queue queueMessages, @Qualifier(DIRECT_EXCHANGE) TopicExchange exchange) {
         // 绑定消息到交换机并按照routingKey 进行路由
         return BindingBuilder.bind(queueMessages).to(exchange).with(topicRoutingKey);
     }

@@ -84,6 +84,24 @@ docker image rm containerId 删除镜像
 docker rmi repository:tag :删除指定仓库版本镜像
 ```
 
+``` 
+删除所有名字中带 “none” 关键字的镜像
+docker rmi $(docker images | grep "none" | awk '{print $3}') 
+
+# 直接删除所有镜像
+docker rmi `docker images -q`
+
+# 直接删除所有容器
+docker rm `docker ps -aq`
+
+# 按条件筛选之后删除镜像
+docker rmi `docker images | grep xxxxx | awk '{print $3}'`
+
+# 按条件筛选之后删除容器
+docker rm `docker ps -a | grep xxxxx | awk '{print $1}'`
+
+```
+
 #### docker run
 
 ```
@@ -126,4 +144,14 @@ docker save -o nginx.tar nginx:latest
 ``` 
 加载保存的镜像
 docker load -i {{ path }}/images/{{ image_name }}
+```
+
+#### docker cp
+
+```
+复制容器文件到宿主机
+docker cp 容器id:容器内文件路径 目标路径
+#示例
+docker cp 6741xxxxxxxx:/xxxx/xxx/xxx/xxxx/common.log /home/rhlog/yyy.log  #注意没有"."
+ 
 ```

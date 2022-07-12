@@ -1,6 +1,7 @@
 package com.wujt.config;
 
 import lombok.Data;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,6 @@ public class RabbitMqInfo {
     private String username;
     private String password;
     private String virtualHost;
-    private Boolean publisherConfirms;
-
+    private CachingConnectionFactory.ConfirmType publisherConfirms;
+    private Boolean publishReturns;
 }

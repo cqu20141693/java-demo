@@ -44,10 +44,30 @@ public class OkHttpApp {
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String result = response.body().string();
-            return JSONObject.parseObject(result);
+            JSONObject.parseObject(result);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        String urlQuery="http://192.168.96.168:8840/device/instance/_query";
+        RequestBody body = RequestBody.create(JSON, "{\"pageSize\":15,\"currentPage\":0,\"sorts\":[{\"name\":\"createTime\",\"order\":\"desc\"},{\"name\":\"id\",\"order\":\"desc\"}],\"terms\":[{\"column\":\"productId\",\"value\":\"1536542790799953920\",\"type\":\"and\",\"termType\":\"eq\"}]}");
+
+        Request instance = new Request.Builder()
+                .post(body)
+                .addHeader("Authorization", "mes2")
+                .url(urlQuery).build();
+        try (Response response = client.newCall(instance).execute()) {
+            String result = response.body().string();
+            System.out.println(result);
+            JSONObject jsonObject = JSONObject.parseObject(result);
+
+            return jsonObject;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         return null;
     }
 }

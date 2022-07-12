@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
  * @author wujt
  * @version 1.0
  * @date 2020/2/27
+ * https://docs.oracle.com/javase/10/nashorn/nashorn-java-api.htm#JSNUG119
  */
 @Slf4j
 public class JavaJSSandBoxDemo {
@@ -23,7 +24,19 @@ public class JavaJSSandBoxDemo {
 
         demo.bindingDemo();
         demo.invokeFunctionDemo();
+        demo.invokeJSONFunction();
+    }
 
+    /**
+     * var text=  JSON.stringify(data)
+     * var ruleData1=JSON.parse(text)
+     * var txt= com.alibaba.fastjson.JSONObject.toJSONString(data)
+     * var ruleData=com.alibaba.fastjson.JSONObject.parseObject(txt)
+     */
+    private void invokeJSONFunction() {
+        Object data=new Object();
+        String txt= com.alibaba.fastjson.JSON.toJSONString(data);
+        com.alibaba.fastjson.JSONObject ruleData=com.alibaba.fastjson.JSON.parseObject(txt);
     }
 
     /*
@@ -40,12 +53,12 @@ public class JavaJSSandBoxDemo {
     public void bindingDemo() {
         try {
             final Bindings bindings = sandbox.createBindings();
-            bindings.put("$ARG","hello world!");
+            bindings.put("$ARG", "hello world!");
             Object result = sandbox.eval("$ARG", bindings);
             log.info("result=" + result);
 
 
-            bindings.put("k",20);
+            bindings.put("k", 20);
             result = sandbox.eval("k + 1", bindings);
             log.info("result=" + result);
 
@@ -59,20 +72,19 @@ public class JavaJSSandBoxDemo {
             scope.put("key", "西安");
             result = sandbox.eval("key + '市'", scope);
             log.info("result=" + result);
-        }
-        catch (ScriptException se) {
+        } catch (ScriptException se) {
             log.warn("binding demo exception.", se);
         }
     }
 
 
     public boolean invokeFunctionDemo() {
-        log.info("---          invokeFunction         ---" );
+        log.info("---          invokeFunction         ---");
         boolean result = true;
         try {
 
             final Bindings bindings = sandbox.createBindings();
-            bindings.put("msg","hello world!");
+            bindings.put("msg", "hello world!");
             String str = "var user = {name:'张三',age:18,city:['陕西','台湾']};";
             sandbox.eval(str, bindings);
 
@@ -107,13 +119,12 @@ public class JavaJSSandBoxDemo {
             log.info("func = {}", func);
             sandbox.eval("function filter(msg, metadata, msgType){ " + func + "}");
             // 执行js函数
-            Object obj  = sandbox.getSandboxedInvocable().invokeFunction("filter", msg, metadata, msgType);
+            Object obj = sandbox.getSandboxedInvocable().invokeFunction("filter", msg, metadata, msgType);
 
             //方法的名字，参数
             log.info("function result={}", obj);
-            result = (Boolean)obj;
-        }
-        catch(Exception ex) {
+            result = (Boolean) obj;
+        } catch (Exception ex) {
             log.warn("exception", ex);
             result = false;
         }

@@ -1,9 +1,9 @@
 spring:
   rabbitmq:
-    host: 192.168.96.128
+    host: 192.168.96.161
     port: 5672
-    username: guest
-    password: guest
+    username: admin
+    password: cc@123456
     cache:
       channel:
         size: 50
@@ -19,9 +19,10 @@ spring:
 #        initial-interval: 2s
 #        max-attempts: 3
 rabbit:
-  host: 192.168.96.128
+  host: 192.168.96.161
   port: 5672
-  username: guest
-  password: guest
+  username: admin
+  password: cc@123456
   virtual-host: /
-  publisherConfirms: true
+  publisherConfirms: CORRELATED
+  publishReturns: true

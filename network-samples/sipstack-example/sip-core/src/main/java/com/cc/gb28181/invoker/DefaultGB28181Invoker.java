@@ -20,8 +20,10 @@ import javax.sip.header.Header;
 import javax.sip.message.Request;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -40,6 +42,8 @@ public class DefaultGB28181Invoker implements GB28181Invoker {
     private Map<String, Object> processor = new ConcurrentHashMap<>();
     private boolean autoAck;
     private final RequestIdSupplier requestIdInc = new RequestIdSupplier();
+
+    private Map<String, Consumer<RequestEvent>> handlers = new HashMap<>();
 
     public DefaultGB28181Invoker(SipProperties properties, SipLayer sipLayer, boolean autoAck) {
         this.properties = properties;
@@ -201,8 +205,9 @@ public class DefaultGB28181Invoker implements GB28181Invoker {
     }
 
     @Override
-    public RequestEvent handleRequest(String method) {
-        return null;
+    public void handleRequest(String method, Consumer<RequestEvent> handler) {
+        log.info("add {} request handler", method);
+        handlers.put(method, handler);
     }
 
     @Override

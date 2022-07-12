@@ -18,7 +18,7 @@ public interface MediaGateway {
      *
      * @return void
      */
-    Void start();
+    void start();
 
     /**
      * 同步通道
@@ -26,7 +26,7 @@ public interface MediaGateway {
      * @param id 设备ID
      * @return void
      */
-    Void syncChannel(String id);
+    void syncChannel(String id);
 
     /**
      * 停止直播流

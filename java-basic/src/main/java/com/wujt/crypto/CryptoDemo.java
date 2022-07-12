@@ -21,7 +21,22 @@ public class CryptoDemo {
 
         String path = "D:\\work\\gee-ga\\edge-plugin\\iiot_mapper_request-1.0.6-py3-none-any.whl";
         String pat1h = "D:\\work\\gee-ga\\edge-plugin\\iiot_driver_mysql-1.0.0-py3-none-any.whl";
-        test(pat1h);
+        //test(pat1h);
+
+
+        String secureKey = "Z2xXWIezw0cf196q"; //密钥
+        String uri = "/device/instance/_query";
+        //"terms[0].column".
+        String responseBody = "terms[0].column=productId&terms[0].termType=in&terms[0].value=1518123514523734016";//服务端响应结果
+        String timestampHeader = String.valueOf(System.currentTimeMillis());//响应头: X-Timestamp
+        String signHeader = ""; //响应头: X-Sign
+        System.out.println(timestampHeader);
+        String sign = DigestUtils.md5Hex(uri + responseBody + timestampHeader + secureKey);
+        if (sign.equalsIgnoreCase(signHeader)) {
+            //验签通过
+
+        }
+        System.out.println(sign);
     }
 
     private static void test(String path) throws IOException {

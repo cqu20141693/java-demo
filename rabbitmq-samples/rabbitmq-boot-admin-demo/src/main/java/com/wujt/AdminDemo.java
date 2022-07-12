@@ -39,6 +39,28 @@ public class AdminDemo implements CommandLineRunner {
         User user = new User();
         user.setUserName("cc");
         user.setAge(27);
-        sender.send(user);
+        sender.sendDirect(user);
+    }
+    @Scheduled(fixedDelay = 10000, initialDelay = 2000)
+    public void schedule1() {
+        sendTopic();
+    }
+
+    private void sendTopic() {
+        User user = new User();
+        user.setUserName("cc");
+        user.setAge(28);
+        sender.sendTopic(user);
+    }
+    @Scheduled(fixedDelay = 15000, initialDelay = 3000)
+    public void schedule2() {
+        sendFanout();
+    }
+
+    private void sendFanout() {
+        User user = new User();
+        user.setUserName("cc");
+        user.setAge(29);
+        sender.sendFanout(user);
     }
 }

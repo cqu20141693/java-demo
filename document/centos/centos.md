@@ -18,14 +18,6 @@ du -h [目录名] 查看指定文件夹下的所有文件大小（包含子文�
 
 ```
 
-### rpm 安装卸载
-
-``` 
-卸载mysql
-rpm -qa |grep -i mysql
-yum remove mysql-community-common-5.7.20-1.el7.x86_64
-```
-
 ### 进程命令
 
 ``` 
@@ -43,6 +35,10 @@ systemctl status mysqld.service
 systemctl stop mysqld.service 
 systemctl enable mysqld.service 
 
+firewalld.service
+network.service
+mysqld.service
+docker.service
 ```
 
 ### 时间
@@ -74,7 +70,12 @@ systemctl enable mysqld.service
 #### 文件权限
 
 ```
- 
+// 修改文件夹所有者
+chown [-R] 账号名称 文件或目录 
+chown [-R] 账号名称:用户组名称 文件或目录
+chown -R cassandra:cassandra /data/cassandra
+-R : 进行递归( recursive )的持续更改，即连同子目录下的所有文件、目录都更新成为这个用户组。常常用在更改某一目录的情况。
+
 ```
 
 ### vi、vim
@@ -135,7 +136,7 @@ yum install python37 --downloadonly --downloaddir=/work/repo
 
 1. 添加虚拟网卡到wlp2s0命令 sudo ifconfig wlp2s0:1 192.168.10.11 up
 2. 查看某个网段地址 ifconfig |grep 192
-
+3. 修改ip : # ifconfig ens33 192.168.96.160 netmask 255.255.255.0
 ### vim
 
 #### Esc 模式
@@ -195,4 +196,13 @@ grep file value ：搜索
 
 ``` 
  ps -ef | grep zookeeper | grep -v ‘grep’ : 搜索zookeeper的启动命令，排查包括grep指令的
+```
+### wget
+``` 
+wget --no-check-certificate --quiet \
+  --method GET \
+  --timeout=0 \
+  --header '' \
+  -O ansible_v2.9.9_install.tar.gz \
+   'http://10.113.75.63:9090/deploy/ansible_v2.9.9_install.tar.gz?Content-Disposition=attachment%3B%20filename%3D%22ansible_v2.9.9_install.tar.gz%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=gaea%2F20220629%2F%2Fs3%2Faws4_request&X-Amz-Date=20220629T015804Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=99ba0165cd16c918816d53bf70f6e8e958abad4756cfbc64d98b1967c9707290'
 ```

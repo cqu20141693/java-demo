@@ -1,8 +1,11 @@
 package com.cc.sip.gateway;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cc.netwok.*;
 import com.cc.sip.SipConfig;
+import com.cc.sip.SipProperties;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -12,6 +15,7 @@ import javax.annotation.Nullable;
  * wcc 2022/5/25
  */
 @Data
+@Slf4j
 public class SIPNetworkProvider implements NetworkProvider<SipConfig> {
     @Nonnull
     @Override
@@ -21,7 +25,9 @@ public class SIPNetworkProvider implements NetworkProvider<SipConfig> {
 
     @Nonnull
     @Override
-    public Network createNetwork(@Nonnull SipConfig properties) {
+    public Network createNetwork(@Nonnull SipConfig config) {
+        log.info("create sip Network :{}", config);
+        SipProperties properties = JSONObject.parseObject(JSONObject.toJSONString(config), SipProperties.class);
         return null;
     }
 

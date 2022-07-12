@@ -1,14 +1,63 @@
 package com.gow;
 
-import java.util.Optional;
-import java.util.function.Function;
+import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * @author wujt  2021/6/4
  */
+@Slf4j
 public class MonoTest {
+
+
+    @Test
+    public void testThen() {
+        Mono.just(1).map(index -> {
+            if (index == 1) {
+                throw new RuntimeException();
+            }
+            return 2;
+        }).then(Mono.just(2))
+                .subscribe(System.out::println);
+
+        Mono.just(2).map(index -> {
+            if (index == 1) {
+                throw new RuntimeException();
+            }
+            return 2;
+        }).then(Mono.just(2))
+                .subscribe(System.out::println);
+    }
+
+    @Test
+    public void testError() {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        Flux.fromIterable(list)
+                .map(i -> {
+                    if (i == 2) {
+                        throw new ConcurrentModificationException();
+                    }
+                    return i;
+                }).flatMap(i -> {
+            if (i > 5) {
+                throw new RuntimeException();
+            }
+            return Flux.just(i);
+        }).doOnError(e -> log.debug("saveDeviceMessage msg={},e={}", JSONObject.toJSONString(list), e.getCause()))
+                .then().subscribe();
+
+    }
+
     public static void main(String[] args) {
 
         // Create a new Mono that emits the specified item, which is captured at instantiation time.
@@ -60,16 +109,16 @@ public class MonoTest {
         System.out.println("test mono empty start");
         Mono<Boolean> booleanMono = getResult(false);
         Mono<String> mono = booleanMono.hasElement().flatMap(v -> {
-            if(v) {
+            if (v) {
                 System.out.println("has element");
-               return booleanMono.flatMap(value->{
-                   if (value) {
-                       return Mono.just("success");
-                   } else {
-                       return Mono.just("failed");
-                   }
-               });
-            }else {
+                return booleanMono.flatMap(value -> {
+                    if (value) {
+                        return Mono.just("success");
+                    } else {
+                        return Mono.just("failed");
+                    }
+                });
+            } else {
                 System.out.println("not element");
             }
             return Mono.just("failed");

@@ -9,6 +9,7 @@ import javax.sip.ClientTransaction;
 import javax.sip.RequestEvent;
 import javax.sip.message.Request;
 import java.util.Date;
+import java.util.function.Consumer;
 
 /**
  * GB28181指令执行器,用于向设备发送相应的指令
@@ -126,7 +127,7 @@ public interface GB28181Invoker {
      */
     HandleDeviceMessage handleMessage();
 
-    RequestEvent handleRequest(String method);
+    void handleRequest(String method, Consumer<RequestEvent> handler);
 
     Void deviceConfigModifyName(String deviceId, String name, GB28181Device device);
 }

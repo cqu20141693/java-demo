@@ -12,28 +12,17 @@
 选择镜像，工件网络
 ```
 [VMware的三种网络类型](https://blog.csdn.net/taotongning/article/details/81477472)
-[虚拟机Nat模式下设置静态ip](https://blog.csdn.net/clean_water/article/details/53024423)
+[虚拟机Nat模式下设置静态ip](https://www.jianshu.com/p/6fdbba039d79)
 
-#### bridege Workpiece
+#### NAT
+
+
+3. 配置网卡 vi /etc/sysconfig/network-scripts/ifcfg-ens33
 ```
-vi /etc/sysWorkpiece/network-scripts/ifcfg-ens33
-
-
-PEERROUTES=yes
-IPV6_PEERDNS=yes
-IPV6_PEERROUTES=yes
-IPADDR=10.113.72.131
-NETMASK=255.255.254.0
-GATEWAY=10.113.72.1
-DNS1=10.113.75.20
-DNS2=10.113.75.19
-
-
-
 TYPE="Ethernet"
 PROXY_METHOD="none"
 BROWSER_ONLY="no"
-BOOTPROTO="dhcp"
+# BOOTPROTO="dhcp"
 DEFROUTE="yes"
 IPV4_FAILURE_FATAL="no"
 IPV6INIT="yes"
@@ -42,16 +31,25 @@ IPV6_DEFROUTE="yes"
 IPV6_FAILURE_FATAL="no"
 IPV6_ADDR_GEN_MODE="stable-privacy"
 NAME="ens33"
-UUID="bcc8e1cc-151e-4159-9dc8-a32e324b5367"
+UUID="5a6c3800-a0e4-4b28-94c9-0e7f0df161b6"
 DEVICE="ens33"
 ONBOOT="yes"
+BOOTPROTO="static"
+NM_CONTROLLED=yes
+IPADDR=192.168.96.161
+NETMASK=255.255.255.0
+GATEWAY=192.168.96.2
+DNS1=10.113.75.20
+DNS2=10.113.75.19
+```
+4. 修改当前网卡ip为静态ip
+``` 
 
+systemctl restart network.service
 
-vi /etc/sysWorkpiece/network 
+# 临时修改将ens33的IP改为192.168.96.161
+ifconfig ens33 192.168.96.161 netmask 255.255.255.0
 
-NETWORKING=yes
-HOSTNAME=bridge-001
-GATEWAY=192.168.0.1
 ```
 ### 使用centos
 1. root 账户切换
