@@ -11,7 +11,7 @@ public interface MessageSink {
     /**
      * Input channel name.
      */
-    String INPUT = "/data/exchange/8b7rHVjk";
+    String INPUT = "/data/exchange/QdV0AvSe";
 
     /**
      * 消费者信道

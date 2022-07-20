@@ -204,5 +204,5 @@ wget --no-check-certificate --quiet \
   --timeout=0 \
   --header '' \
   -O ansible_v2.9.9_install.tar.gz \
-   'http://10.113.75.63:9090/deploy/ansible_v2.9.9_install.tar.gz?Content-Disposition=attachment%3B%20filename%3D%22ansible_v2.9.9_install.tar.gz%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=gaea%2F20220629%2F%2Fs3%2Faws4_request&X-Amz-Date=20220629T015804Z&X-Amz-Expires=432000&X-Amz-SignedHeaders=host&X-Amz-Signature=99ba0165cd16c918816d53bf70f6e8e958abad4756cfbc64d98b1967c9707290'
+   'http://10.113.75.63:9090/deploy/ansible_v2.9.9_install.tar.gz'
 ```

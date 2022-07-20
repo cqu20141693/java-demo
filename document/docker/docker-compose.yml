@@ -69,3 +69,14 @@ services:
       - ./mysql:/var/lib/mysql
     ports:
       - "3306:3306"
+  mongo:
+    image: mongo #根据需要选择自己的镜像
+    container_name: redis
+    restart: always
+    ports:
+      - 27017:27017 #对外暴露停供服务的端口，正式生产的时候理论不用暴露。
+    volumes:
+      - /docker/mongodb/data/db:/work/mongo/data # 挂载数据目录
+      - /docker/mongodb/data/log:/var/log/mongodb  # 挂载日志目录
+      - /docker/mongodb/data/config:/work/mongo/config  # 挂载配置目录
+    command: [--auth] # 指定需要认证，mongdb默认是无认证的

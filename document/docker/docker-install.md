@@ -34,3 +34,12 @@ docker run -d --name rabbitmq3.8 \
 --hostname gRabbit -e RABBITMQ_DEFAULT_VHOST=my_vhost  \
 -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin@123  rabbitmq:3.8-management
 ```
+
+### mongodb
+``` 
+docker search mongo
+docker pull mongo
+docker run -d -p 27017:27017 -v mongo_configdb:/data/configdb -v mongo_db:/data/db --name mongo docker.io/mongo
+
+docker run -d -p 27017:27017 -v mongo_configdb:/data/configdb -v mongo_db:/data/db --name mongo docker.io/mongo --auth
+```

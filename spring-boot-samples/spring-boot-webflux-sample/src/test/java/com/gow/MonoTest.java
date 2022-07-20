@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Optional;
@@ -19,15 +20,37 @@ public class MonoTest {
 
 
     @Test
+    public void testFilter() throws InterruptedException {
+
+
+        test( Mono.just(1));
+        test( Mono.just(3));
+        test( Mono.empty());
+        Thread.sleep(1000);
+    }
+
+    private void test(Mono<Integer> source) {
+        Mono<Boolean> map = source.map(state -> state == null || state != 3);
+        map.switchIfEmpty(Mono.defer(() -> Mono.just("registry").doOnNext(log::info).then(Mono.just(true))))
+                .filter(success -> success)
+//                .then( Mono.just("handlerMessage").doOnNext(log::info))
+                .flatMap(i->{
+                    return Mono.just("handlerMessage").doOnNext(log::info).then();
+                })
+                .subscribe();
+    }
+
+    @Test
     public void testThen() {
         Mono.just(1).map(index -> {
             if (index == 1) {
                 throw new RuntimeException();
             }
             return 2;
-        }).then(Mono.just(2))
+        }).onErrorResume((e) -> Mono.just(-1))
+                .then(Mono.just(2))
                 .subscribe(System.out::println);
-
+        // 异常不会执行then
         Mono.just(2).map(index -> {
             if (index == 1) {
                 throw new RuntimeException();
@@ -35,6 +58,11 @@ public class MonoTest {
             return 2;
         }).then(Mono.just(2))
                 .subscribe(System.out::println);
+
+        Mono.defer(() -> Mono.just(1).delayElement(Duration.ofMillis(1)).doOnNext(System.out::println))
+                .then(Mono.just(2).doOnNext(System.out::println))
+                .then().subscribe();
+
     }
 
     @Test
