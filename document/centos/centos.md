@@ -79,7 +79,10 @@ chown -R cassandra:cassandra /data/cassandra
 ```
 
 ### vi、vim
-
+``` 
+:$ 跳转到最后一行
+:1 跳转到第一行
+```
 #### 文件内容替换
 
 ``` 

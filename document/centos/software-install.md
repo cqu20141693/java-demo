@@ -42,3 +42,29 @@ rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 #重启rabbitmq
 systemctl restart rabbitmq-server.service
 ```
+##### golang
+``` 
+# 先卸载旧的golang
+yum remove golang
+# 然后找到最新版本
+https://golang.google.cn/dl/
+# 下载安装
+cd /usr/local/src	
+wget https://golang.google.cn/dl/go1.18.4.linux-amd64.tar.gz
+tar -zxvf go1.18.4.linux-amd64.tar.gz -C /usr/local/
+# 增加配置文件
+vim /etc/profile
+
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin
+export GOPATH=/opt/go
+export PATH=$PATH:$GOPATH/BIN
+# 应用改变
+source /etc/profile
+# 查看版本
+go version
+# 依赖下载速度过慢
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
+
+```
