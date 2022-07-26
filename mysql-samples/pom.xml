@@ -14,6 +14,7 @@
   <modules>
     <module>boot-mybatis-sample</module>
     <module>boot-sharding-sphere-sample</module>
+      <module>boot-mybatis-plus-sample</module>
   </modules>
 
   <properties>
