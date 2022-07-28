@@ -35,7 +35,7 @@ systemctl status mysqld.service
 systemctl stop mysqld.service 
 systemctl enable mysqld.service 
 
-firewalld.service
+systemctl disable firewalld.service  // 永久关闭防火墙
 network.service
 mysqld.service
 docker.service
@@ -79,10 +79,12 @@ chown -R cassandra:cassandra /data/cassandra
 ```
 
 ### vi、vim
+
 ``` 
 :$ 跳转到最后一行
 :1 跳转到第一行
 ```
+
 #### 文件内容替换
 
 ``` 
@@ -140,6 +142,7 @@ yum install python37 --downloadonly --downloaddir=/work/repo
 1. 添加虚拟网卡到wlp2s0命令 sudo ifconfig wlp2s0:1 192.168.10.11 up
 2. 查看某个网段地址 ifconfig |grep 192
 3. 修改ip : # ifconfig ens33 192.168.96.160 netmask 255.255.255.0
+
 ### vim
 
 #### Esc 模式
@@ -200,7 +203,9 @@ grep file value ：搜索
 ``` 
  ps -ef | grep zookeeper | grep -v ‘grep’ : 搜索zookeeper的启动命令，排查包括grep指令的
 ```
+
 ### wget
+
 ``` 
 wget --no-check-certificate --quiet \
   --method GET \

@@ -8,3 +8,10 @@ spring:
     username: root
     password: cc@123
 
+#指定mybatis配置文件的位置
+mybatis-plus:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mappers/*.xml
+springfox:
+  documentation:
+    enabled: true

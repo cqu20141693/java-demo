@@ -1,4 +1,4 @@
-package com.gow.device.operation;
+package com.gow;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

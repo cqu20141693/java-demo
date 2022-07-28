@@ -14,3 +14,9 @@ select client_addr,sync_state from pg_stat_replication;
 
 2. \l 用于查看已经存在的数据库
 3. \c + 数据库名 来进入数据库
+
+
+### CLI
+``` 
+启动命令： pg_ctl -D /data/postgresql/data/ -l /data/postgresql/data/logfile start
+```
