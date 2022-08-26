@@ -1,54 +1,45 @@
-package com.gow.config;
+package com.wcc.openapi.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.ScalarType;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.ParameterType;
-import springfox.documentation.service.RequestParameter;
-import springfox.documentation.service.Response;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
- * @author gow
- * @date 2021/7/12 0012
+ * wcc 2022/8/26
  */
-@Slf4j
 @Configuration
 @EnableOpenApi
-public class Swagger3Config implements WebMvcConfigurer {
+@EnableKnife4j
+@Slf4j
+public class Swagger3Config {
     @Bean("OpenAPi")
     public Docket createOpenAPI() {
-        return getDocket("com.gow.openapi.api", "OpenApi");
+        return getDocket("com.wcc.openapi.api", "OpenApi");
 
     }
-
-    @Bean("RestApi")
-    public Docket createRestAPI() {
-        return getDocket("com.gow.rest", "rest api");
-
-    }
-
     private Docket getDocket(String basePackage, String groupName) {
         log.info("Starting {} Swagger", groupName);
         StopWatch watch = new StopWatch();

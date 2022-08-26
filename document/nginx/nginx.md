@@ -9,7 +9,8 @@
   - [incloud](#incloud)
   - [示例](#示例)
 ## nginx
-https://juejin.cn/post/6844904125784653837
+1. [blog](https://juejin.cn/post/6844904125784653837)
+1. [blog](https://www.moyundong.com/netsite/nginx/1windows%E4%B8%8B%E5%AE%89%E8%A3%85nginx.html)
 ### Nginx应用场景？
 
 http服务器: Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。

@@ -1,5 +1,6 @@
 package com.wujt.string;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -14,7 +15,35 @@ import java.util.HashSet;
  * @author wujt
  */
 public class StringDemo {
+    private static String replaceAll(String key) {
+        key = key.replaceAll("一", "1");
+        key = key.replaceAll("二", "2");
+        key = key.replaceAll("三", "3");
+        key = key.replaceAll("四", "4");
+        key = key.replaceAll("五", "5");
+        key = key.replaceAll("六", "6");
+        key = key.replaceAll("七", "7");
+        key = key.replaceAll("八", "8");
+        key = key.replaceAll("九", "9");
+        key = key.replaceAll("零", "0");
+        key = key.replaceAll("十", "0");
+        return key;
+    }
+
     public static void main(String[] args) {
+
+        String[] strings1 = {"一工区", "二工区", "三工区","四工区", "五工区", "六工区","七工区", "八工区", "九工区"};
+        Arrays.sort(strings1);
+        String[] strings2 = new String[strings1.length];
+        for (int i = 0; i < strings1.length; i++) {
+            strings2[i] = replaceAll(strings1[i]);
+        }
+        System.out.println(strings1);
+        System.out.println(strings2);
+        Arrays.sort(strings2);
+        System.out.println(strings2);
+
+
         String server = "sso.dev.svc.cluster.local";
         String referer = "dev.svc.cluster.local";
         int indexOf = server.indexOf(referer);
@@ -32,30 +61,30 @@ public class StringDemo {
         System.out.println(".... test split end ....");
 
 
-        String topic="/productId/deviceId/read";
+        String topic = "/productId/deviceId/read";
 
         int indexOf1 = topic.lastIndexOf("/", 1);
         String substring = topic.substring(indexOf1);
 
         HashSet<String> strings = new HashSet<>();
-        System.out.println( String.join(",",strings));
+        System.out.println(String.join(",", strings));
         strings.add("poo");
-        System.out.println(String.join(",",strings));
+        System.out.println(String.join(",", strings));
         strings.add("pjj");
-        System.out.println(String.join(",",strings));
+        System.out.println(String.join(",", strings));
 
-        String req_url="http://wila.com/storage";
-        String url="http://wila.com/storage/ga-ea/common/202204/6461326556694a21a496e36aeb45a72f.whl";
+        String req_url = "http://wila.com/storage";
+        String url = "http://wila.com/storage/ga-ea/common/202204/6461326556694a21a496e36aeb45a72f.whl";
         int indexOf2 = url.indexOf("/ga-ea/");
         System.out.println(indexOf2);
-        String sub = url.substring(req_url.length()+1);
+        String sub = url.substring(req_url.length() + 1);
         System.out.println(sub);
         String bucket = sub.substring(0, sub.indexOf("/"));
-        String object = sub.substring(sub.indexOf("/")+1);
-        String prefix="hell:";
+        String object = sub.substring(sub.indexOf("/") + 1);
+        String prefix = "hell:";
         String s = prefix + bucket;
         String s1 = s.substring(prefix.length());
-        System.out.println(bucket+":"+object);
+        System.out.println(bucket + ":" + object);
     }
 
     private static void testSplit() {
@@ -72,8 +101,8 @@ public class StringDemo {
         }
         String[] split2 = s3.split(":");
         String[] split3 = s3.split(":", -1);
-        if(split2.length!=split3.length){
-            System.out.println("split -1 length"+split3.length);
+        if (split2.length != split3.length) {
+            System.out.println("split -1 length" + split3.length);
         }
 
     }

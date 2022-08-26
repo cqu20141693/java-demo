@@ -9,8 +9,7 @@ docker exec -it mongo mongo admin
 ```sql
 use
 admin;
-db.createUser
-(
+db.createUser(
   {
     user: "ccAdmin",
     pwd: "cc@123456", // or cleartext password
@@ -25,7 +24,7 @@ db.createUser(
     user: "iiot",
     pwd: "cqu1234567", // or cleartext password
     roles: [
-      { role: "userAdmin", db: "iotTopology" }
+      { role: "dbOwner", db: "iotTopology" }
     ],
    "mechanisms" : [
                         "SCRAM-SHA-1",

@@ -4,14 +4,19 @@
 
 1. 登录 ./cqlsh 192.168.96.252 -u cassandra -p cassandra
 2. keyspace
-
-```
+3. ```
    DESCRIBE KEYSPACES 
    use keyspace 
    DESCRIBE SCHEMA
    DROP KEYSPACE excelsior;
    DESCRIBE TABLES
 ```
+3. copy
+```
+COPY jetlinks.properties_gateway_deploy TO '/home/cas/copydata'
+```
+
+10.128.81.200
 
 3. table
 
@@ -87,3 +92,4 @@ Cassandra是为优异的写吞吐量而特别优化的，能够支持很高的�
 ```markdown
 1. [调优](https://blog.csdn.net/u011250186/article/details/106768355)
 ```
+

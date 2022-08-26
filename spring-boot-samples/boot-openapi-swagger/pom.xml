@@ -14,6 +14,7 @@
   <modules>
     <module>boot-springfox-swagger</module>
     <module>boot-springdoc-swagger</module>
+      <module>boot-Knife4j-apidoc</module>
   </modules>
 
   <properties>

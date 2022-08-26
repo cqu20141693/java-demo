@@ -22,6 +22,7 @@
         <module>media-sample</module>
         <module>ocpp-sample</module>
         <module>network-core</module>
+        <module>modbus-sample</module>
     </modules>
 
 </project>
