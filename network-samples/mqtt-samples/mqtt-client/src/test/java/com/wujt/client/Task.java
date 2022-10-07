@@ -1,6 +1,7 @@
 package com.wujt.client;
 
 import lombok.Data;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,7 +18,13 @@ public class Task {
     static final ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
     static final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
-    public static void scheduledPublish(Runnable task, long initialDelay, long period, TimeUnit unit) {
+    public static void scheduleAtFixedRate(Runnable task, long initialDelay, long period, TimeUnit unit) {
         scheduledExecutorService.scheduleAtFixedRate(task, initialDelay, period, unit);
+    }
+
+    public static void schedule(Runnable task, long initialDelay, TimeUnit unit) {
+
+            scheduledExecutorService.schedule(task, initialDelay, unit);
+
     }
 }

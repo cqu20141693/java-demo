@@ -7,7 +7,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.Promise;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 final class MqttChannelHandler extends SimpleChannelInboundHandler<MqttMessage> {
 
     private final MqttClientImpl client;
@@ -80,6 +82,8 @@ final class MqttChannelHandler extends SimpleChannelInboundHandler<MqttMessage> 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
+        log.info("occur channel inactive:{} ", client.getClientConfig().getClientId());
+        ctx.close();
     }
 
     private void invokeHandlersForIncomingPublish(MqttPublishMessage message) {

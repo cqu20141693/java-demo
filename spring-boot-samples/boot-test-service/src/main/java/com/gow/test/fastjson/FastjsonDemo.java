@@ -1,6 +1,7 @@
 package com.gow.test.fastjson;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.gow.test.fastjson.model.ModelInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +32,8 @@ public class FastjsonDemo {
         List<ModelInfo> modelInfos = JSONArray.parseArray(s, ModelInfo.class);
         System.out.println(modelInfos.size());
 
+        String s1 = JSONObject.toJSONString(null);
+        System.out.println(s1);
     }
 
     /**

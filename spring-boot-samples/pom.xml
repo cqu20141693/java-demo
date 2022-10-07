@@ -12,7 +12,6 @@
   <artifactId>spring-boot-samples</artifactId>
   <packaging>pom</packaging>
   <modules>
-    <module>spring-boot-webflux-sample</module>
     <module>boot-validation-sample</module>
     <module>boot-oss-sample</module>
     <module>boot-2.4.5-dependencies</module>
@@ -34,6 +33,7 @@
     <module>boot-http-sample</module>
     <module>spring-boot-transaction</module>
     <module>spring-boot-batch</module>
+    <module>boot-webflux-samples</module>
   </modules>
 
 

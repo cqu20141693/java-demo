@@ -6,6 +6,7 @@ package com.wujt;
  */
 public class Main {
     public static void main(String[] args) {
+        String text ;
         Main main = new Main();
         int maxSubSeq = main.maxSubSeq(new int[]{1, 2, 3, 4, 2}, 6);
         System.out.println(maxSubSeq);

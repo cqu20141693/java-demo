@@ -1,0 +1,21 @@
+server:
+  port: 8088
+spring:
+  data:
+    cassandra:
+      keyspace-name: jetlinks
+      contact-points: 192.168.96.163:9042
+      username: cassandra
+      password: cassandra
+      local-datacenter: datacenter1
+      request:
+        timeout: 180s
+        throttler:
+          type: concurrency_limiting
+          max-queue-size: 100000
+          max-concurrent-requests: 1000
+      pool:
+        idle-timeout: 120
+logging:
+  level:
+    org.springframework.data.cassandra.core.cql.session.DefaultBridgedReactiveSession: debug

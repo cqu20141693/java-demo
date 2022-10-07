@@ -12,10 +12,15 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.mqtt.MqttConnectReturnCode;
 import io.netty.handler.codec.mqtt.MqttVersion;
+import io.netty.util.concurrent.Future;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,8 +32,38 @@ public class MqttClientTest {
     public static void main(String[] args) throws Exception {
         EventLoopGroup loop = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors() * 2);
 
-        dev(loop);
+        //dev(loop);
 //        test(loop);
+
+        local(loop);
+    }
+
+    private static void local(EventLoopGroup loop) throws InterruptedException {
+
+
+        // 子设备
+//        String childId = "202209091120";
+        String childId = "";
+        // mqtt address
+        String host = "localhost";
+        int port = 1884;
+        // mqtt auth
+        Set<String> clientIds = new HashSet<>(Arrays.asList("1542449208217583616", "1551395488596348928","test-bench"));
+        int index = 200;
+        for (int i = index; i < index + 200; i++) {
+            clientIds.add("ccgateway" + i);
+        }
+        String admin = "admin";
+        String password = "cc@123456";
+//# The SQLAlchemy connection string.
+//SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
+//# SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
+//# SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
+//SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://superset:superset@192.168.96.163:3306/superset'
+        for (String clientId : clientIds) {
+            glMqtt(loop, host, port, clientId, admin, password, childId, 500, false);
+        }
+
     }
 
     private static void test(EventLoopGroup loop) throws InterruptedException {
@@ -43,14 +78,12 @@ public class MqttClientTest {
         String clientId = "ccgateway";
         String admin = "admin";
         String password = "cc@123456";
-        String productId = "cctemplate";
-        String gatewayId = "ccgateway";
 //# The SQLAlchemy connection string.
 //SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
 //# SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
 //# SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
 //SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://superset:superset@192.168.96.163:3306/superset'
-        glMqtt(loop, productId, gatewayId, host, port, clientId, admin, password, childId);
+        glMqtt(loop, host, port, clientId, admin, password, childId);
     }
 
     private static void dev(EventLoopGroup loop) throws InterruptedException {
@@ -70,9 +103,7 @@ public class MqttClientTest {
         String clientId = "cassandra-gt";
         String admin = "admin";
         String password = "cc@123456";
-        String productId = "cassandraP";
-        String gatewayId = "cassandra-gt";
-        glMqtt(loop, productId, gatewayId, host, port, clientId, admin, password, childId);
+        glMqtt(loop, host, port, clientId, admin, password, childId);
     }
 
     private static JSONObject getChildData(JSONObject json, String childId) {
@@ -109,7 +140,13 @@ public class MqttClientTest {
         return json;
     }
 
-    private static void glMqtt(EventLoopGroup loop, String productId, String gatewayId, String host, int port, String clientId, String admin, String password, String childId) throws InterruptedException {
+    private static void glMqtt(EventLoopGroup loop, String host, int port, String clientId, String admin, String password, String childId) throws InterruptedException {
+        int period = 5;
+        glMqtt(loop, host, port, clientId, admin, password, childId, period, false);
+    }
+
+    private static void glMqtt(EventLoopGroup loop, String host, int port, String clientId, String admin,
+                               String password, String childId, int period, boolean random) throws InterruptedException {
         MqttClient mqttClient = new MqttClientImpl(((t, payload) -> {
             System.out.println(t + "=>" + payload.toString(StandardCharsets.UTF_8));
         }));
@@ -145,24 +182,50 @@ public class MqttClientTest {
                             System.out.println("error:" + result.getReturnCode() + "--");
                             mqttClient.disconnect();
                         } else {
-                            System.out.println("success:");
-                            Task.scheduledPublish(() -> {
-                                JSONObject json = getGatewayData();
-                                JSONObject child = getChildData(json, childId);
-                                String topic = String.join("/", "", productId, gatewayId, "v1/devices/me/telemetry");
-                                String childTopic = String.join("/", "", productId, gatewayId, "v1/gateway/telemetry");
-                                // gateway
-                                mqttClient.publish(topic,
-                                        Unpooled.copiedBuffer(json.toString(), StandardCharsets.UTF_8));
-                                // child
-                                mqttClient.publish(childTopic,
-                                        Unpooled.copiedBuffer(child.toString(), StandardCharsets.UTF_8));
-                            }, 1000, 5000, TimeUnit.MILLISECONDS);
 
+                            System.out.println("success connect:" + clientId);
+
+                            if (random) {
+                                Task.schedule(() -> sendMsg(clientId, childId, mqttClient, future, random, period),
+                                        15, TimeUnit.MILLISECONDS);
+                            } else {
+                                Task.scheduleAtFixedRate(() -> sendMsg(clientId, childId, mqttClient, future, random, period),
+                                        1, period, TimeUnit.MILLISECONDS);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }).await(5, TimeUnit.SECONDS);
+    }
+
+    private static void sendMsg(String clientId, String childId, MqttClient mqttClient,
+                                Future<? super MqttConnectResult> future, boolean random, int period) {
+        JSONObject json = getGatewayData();
+
+        String topic = clientId + "/v1/devices/me/telemetry";
+        String childTopic = clientId + "/v1/gateway/telemetry";
+        // gateway
+        mqttClient.publish(topic,
+                Unpooled.copiedBuffer(json.toString(), StandardCharsets.UTF_8)).addListener(future1 -> {
+            MqttConnectResult ret = (MqttConnectResult) future.get(15, TimeUnit.SECONDS);
+            if (!ret.isSuccess()) {
+                System.out.println("publish failed: " + childId);
+                mqttClient.disconnect();
+            }
+        });
+
+        if (!StringUtils.isBlank(childId)) {
+            JSONObject child = getChildData(json, childId);
+            // child
+            mqttClient.publish(childTopic,
+                    Unpooled.copiedBuffer(child.toString(), StandardCharsets.UTF_8));
+        }
+        if (random) {
+            long delay = RandomUtils.nextLong(5, period);
+            System.out.println(clientId + " next msg time=" + delay);
+            Task.schedule(() -> sendMsg(clientId, childId, mqttClient, future, random, period),
+                    delay, TimeUnit.SECONDS);
+        }
     }
 }

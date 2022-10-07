@@ -9,6 +9,8 @@
 ### Pip 使用
 #### 包安装
 ```
+设置源：
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 仓库安装
 1. pip install packageName
 本地安装

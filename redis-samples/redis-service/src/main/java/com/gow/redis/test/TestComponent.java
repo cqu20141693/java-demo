@@ -46,7 +46,10 @@ public class TestComponent implements InitializingBean {
 
         //todo test Pipeline
         // todo testRedisson
+
     }
+
+
 
     private void testMQ() {
         log.info("test MQ start");

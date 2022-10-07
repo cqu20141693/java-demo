@@ -19,9 +19,12 @@ public class MysqlDemo {
 
     @Test
     public void quickCreation() {
-        String url = "jdbc:mysql://192.168.96.163:3306/scada?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
+//        String url = "jdbc:mysql://192.168.96.163:3306/scada?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
+        String url = "jdbc:mysql://114.117.243.20:9030/baikuangDA?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";
+
         String user = "root";
-        String password = "cc@123";
+//        String password = "cc@123";
+        String password = "123456";
 
         // 1 配置数据源
         FastAutoGenerator.create(url, user, password)
@@ -38,7 +41,8 @@ public class MysqlDemo {
                 // 3 包配置
                 .packageConfig(builder -> {
                     builder.parent("com.wcc") // 设置父包名
-                            .moduleName("scada") // 设置父包模块名
+//                            .moduleName("scada") // 设置父包模块名
+                            .moduleName("demo") // 设置父包模块名
                             .entity("core.entity")   //pojo 实体类包名
                             .service("core.service") //Service 包名
                             .serviceImpl("core.service.impl") // ***ServiceImpl 包名
@@ -50,7 +54,7 @@ public class MysqlDemo {
                 })
                 // 4 配置策略
                 .strategyConfig(builder -> {
-                    builder.addInclude("command") // 设置需要生成的表名
+                    builder.addInclude("dwdWorkshopSysvi") // 设置需要生成的表名
                             .addTablePrefix("t_", "c_") // 设置过滤表前缀
                             //4.1、Mapper策略配置
                             .mapperBuilder()
@@ -66,7 +70,7 @@ public class MysqlDemo {
                             .entityBuilder()
                             .enableLombok() //开启 Lombok
                             .disableSerialVersionUID()  //不实现 Serializable 接口，不生产 SerialVersionUID
-                            .logicDeleteColumnName("deleted")   //逻辑删除字段名
+//                            .logicDeleteColumnName("deleted")   //逻辑删除字段名
                             .naming(NamingStrategy.underline_to_camel)  //数据库表映射到实体的命名策略：下划线转驼峰命
                             // 自动填充，需要自实现MetaObjectHandler
                             .addTableFills(

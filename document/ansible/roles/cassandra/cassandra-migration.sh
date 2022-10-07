@@ -13,7 +13,7 @@ chown -R cassandra:cassandra /data/cassandra/data
 chown -R cassandra:cassandra /data/cassandra/log
 echo "restart"
 sh /home/cassandra/apache-cassandra-3.11.10/start_cassandra.sh restart
-
+c
 # grep /data/cassandra /home/cassandra/apache-cassandra-3.11.10/conf/cassandra.yaml
 # ll /data/cassandra/data/cassandra
 # ll /data/cassandra/log/cassandra

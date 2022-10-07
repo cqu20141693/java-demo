@@ -1,11 +1,11 @@
 server:
-  port: 10011
+  port: 10012
 # 单节点配置 RedisStandaloneConfiguration
 spring:
   redis:
-    host: 192.168.96.237
+    host: 192.168.96.163
     port: 6379
-    password: root
+#    password: cc@123
     database: 0
     lettuce: # 连接池配置，需要添加pool2依赖
       pool:
@@ -16,9 +16,9 @@ spring:
     timeout: 30000
 gow:
   redis:
-    host: 192.168.96.237
+    host: 192.168.96.163
     port: 6379
-    password: root
+#    password: root
     database: 0
     lettuce: # 连接池配置，需要添加pool2依赖
       pool:

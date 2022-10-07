@@ -48,6 +48,15 @@ public final class MqttClientImpl implements MqttClient {
 
     private volatile boolean disconnected = false;
     private volatile boolean reconnect = false;
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
     private String host;
     private int port;
     private MqttClientCallback callback;

@@ -43,8 +43,11 @@ Git 不仅仅是个版本控制系统，它也是个内容管理系统(CMS)，�
 1. idea: 推送箭头； ctrl + shift + K 
 2. 终端输入： git push
 ```
-
-5. 其他功能
+5. [git 分支管理](https://blog.csdn.net/whereismatrix/article/details/46443471)
+``` 
+ 
+```
+6. 其他功能
 
 ``` 
 1. git 分支管理
@@ -54,7 +57,9 @@ Git 不仅仅是个版本控制系统，它也是个内容管理系统(CMS)，�
 5. git 子模块管理
 
 ```
+
 ### 代码提交规范
+
 ``` 
 feat - 新功能 feature
 fix - 修复 bug
@@ -66,4 +71,15 @@ test - 增加测试
 chore - 构建过程或辅助工具的变动
 revert - 回退
 build - 打包
+```
+
+### centos 安装git
+
+``` 
+yum install git
+git --version
+
+git config --global user.name "wcc"
+git config --global user.email wcc@cc.com
+git config --list
 ```

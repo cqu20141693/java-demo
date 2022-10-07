@@ -94,11 +94,15 @@ docker rmi `docker images -q`
 # 直接删除所有容器
 docker rm `docker ps -aq`
 
+
 # 按条件筛选之后删除镜像
 docker rmi `docker images | grep xxxxx | awk '{print $3}'`
 
 # 按条件筛选之后删除容器
 docker rm `docker ps -a | grep xxxxx | awk '{print $1}'`
+
+docker image prune --force --all或者docker image prune -f -a` : 删除所有不使用的镜像
+docker container prune -f: 删除所有停止的容器
 
 ```
 
@@ -154,4 +158,13 @@ docker cp 容器id:容器内文件路径 目标路径
 #示例
 docker cp 6741xxxxxxxx:/xxxx/xxx/xxx/xxxx/common.log /home/rhlog/yyy.log  #注意没有"."
  
+```
+
+#### docker history
+
+``` 
+查看dockerfile 构建命令
+docker history wujt114655/superset-py:2.0.1
+--no-trunc : 查看完整命令
+
 ```
