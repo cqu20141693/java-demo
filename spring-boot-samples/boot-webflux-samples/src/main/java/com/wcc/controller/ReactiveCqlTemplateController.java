@@ -181,9 +181,9 @@ public class ReactiveCqlTemplateController {
         ArrayList<Tuple2<String, Map<String, Object>>> list = new ArrayList<>();
         list.add(Tuples.of("properties_", map));
         list.add(Tuples.of("device_log_", map2));
-        String gaeaIiot = createCql(list, "gaea_iiot");
+        String cc_iiot = createCql(list, "cc_iiot");
         Object[] objects = creatArgus(list);
-        System.out.println(gaeaIiot);
+        System.out.println(cc_iiot);
 
     }
 }
