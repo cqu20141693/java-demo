@@ -18,9 +18,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,8 +33,104 @@ public class MqttClientTest {
         //dev(loop);
 //        test(loop);
 
-        local(loop);
+//        local(loop);
+        beanchTest(loop);
     }
+
+    private static void beanchTest(EventLoopGroup loop) throws InterruptedException {
+        // 子设备
+//        String childId = "202209091120";
+        List<String> childIds = new ArrayList<>();
+        int index = 0;
+        for (int i = index; i < index + 1000; i++) {
+            childIds.add("ccchild" + i);
+        }
+        String childProduct="testC";
+        // mqtt address
+        String host = "10.113.75.71";
+        int port = 1883;
+        // mqtt auth
+        Set<String> clientIds = new HashSet<>(Arrays.asList("test-deviceid-1200"));
+
+        String admin = "admin";
+        String password = "Foxconn123!@#";
+
+//# The SQLAlchemy connection string.
+//SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
+//# SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
+//# SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
+//SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://superset:superset@192.168.96.163:3306/superset'
+        for (String clientId : clientIds) {
+            glMqttCreateChildDevice(loop, host, port, clientId, admin, password, childIds,childProduct );
+        }
+
+    }
+
+    private static void glMqttCreateChildDevice(EventLoopGroup loop, String host, int port, String clientId,
+                                                String admin, String password, List<String> childIds,
+                                                String childProduct) throws InterruptedException {
+        MqttClient mqttClient = new MqttClientImpl(((t, payload) -> {
+            System.out.println(t + "=>" + payload.toString(StandardCharsets.UTF_8));
+        }));
+
+        mqttClient.setEventLoop(loop);
+        mqttClient.getClientConfig().setChannelClass(NioSocketChannel.class);
+
+        mqttClient.getClientConfig().setClientId(clientId);
+
+        mqttClient.getClientConfig().setUsername(admin);
+
+        mqttClient.getClientConfig().setPassword(password);
+        mqttClient.getClientConfig().setProtocolVersion(MqttVersion.MQTT_3_1);
+        mqttClient.getClientConfig().setReconnect(false);
+        mqttClient.setCallback(new MqttClientCallback() {
+            @Override
+            public void connectionLost(Throwable cause) {
+
+                cause.printStackTrace();
+            }
+
+            @Override
+            public void onSuccessfulReconnect() {
+
+            }
+        });
+
+        mqttClient.connect(host, port)
+                .addListener(future -> {
+                    try {
+                        MqttConnectResult result = (MqttConnectResult) future.get(15, TimeUnit.SECONDS);
+                        if (result.getReturnCode() != MqttConnectReturnCode.CONNECTION_ACCEPTED) {
+                            System.out.println("error:" + result.getReturnCode() + "--");
+                            mqttClient.disconnect();
+                        } else {
+
+                            System.out.println("success connect:" + clientId);
+                            for (String childId : childIds) {
+                                String topic = clientId + "/v1/gateway/connect";
+                                JSONObject json = new JSONObject();
+                                json.put("productId",childProduct);
+                                json.put("deviceId",childId);
+                                json.put("deviceName",childId);
+                                // gateway
+                                mqttClient.publish(topic,
+                                        Unpooled.copiedBuffer(json.toString(), StandardCharsets.UTF_8)).addListener(future1 -> {
+                                    MqttConnectResult ret = (MqttConnectResult) future.get(15, TimeUnit.SECONDS);
+                                    if (!ret.isSuccess()) {
+                                        System.out.println("publish failed: " + topic);
+                                        mqttClient.disconnect();
+                                    }
+                                });
+                            }
+
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).await(5, TimeUnit.SECONDS);
+    }
+
 
     private static void local(EventLoopGroup loop) throws InterruptedException {
 
@@ -61,7 +155,7 @@ public class MqttClientTest {
 //# SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
 //SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://superset:superset@192.168.96.163:3306/superset'
         for (String clientId : clientIds) {
-            glMqtt(loop, host, port, clientId, admin, password, childId, 500, false);
+            glMqttPublish(loop, host, port, clientId, admin, password, childId, 500, false);
         }
 
     }
@@ -83,7 +177,7 @@ public class MqttClientTest {
 //# SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
 //# SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
 //SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://superset:superset@192.168.96.163:3306/superset'
-        glMqtt(loop, host, port, clientId, admin, password, childId);
+        glMqttPublish(loop, host, port, clientId, admin, password, childId);
     }
 
     private static void dev(EventLoopGroup loop) throws InterruptedException {
@@ -103,7 +197,7 @@ public class MqttClientTest {
         String clientId = "cassandra-gt";
         String admin = "admin";
         String password = "cc@123456";
-        glMqtt(loop, host, port, clientId, admin, password, childId);
+        glMqttPublish(loop, host, port, clientId, admin, password, childId);
     }
 
     private static JSONObject getChildData(JSONObject json, String childId) {
@@ -140,13 +234,13 @@ public class MqttClientTest {
         return json;
     }
 
-    private static void glMqtt(EventLoopGroup loop, String host, int port, String clientId, String admin, String password, String childId) throws InterruptedException {
+    private static void glMqttPublish(EventLoopGroup loop, String host, int port, String clientId, String admin, String password, String childId) throws InterruptedException {
         int period = 5;
-        glMqtt(loop, host, port, clientId, admin, password, childId, period, false);
+        glMqttPublish(loop, host, port, clientId, admin, password, childId, period, false);
     }
 
-    private static void glMqtt(EventLoopGroup loop, String host, int port, String clientId, String admin,
-                               String password, String childId, int period, boolean random) throws InterruptedException {
+    private static void glMqttPublish(EventLoopGroup loop, String host, int port, String clientId, String admin,
+                                      String password, String childId, int period, boolean random) throws InterruptedException {
         MqttClient mqttClient = new MqttClientImpl(((t, payload) -> {
             System.out.println(t + "=>" + payload.toString(StandardCharsets.UTF_8));
         }));

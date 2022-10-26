@@ -23,40 +23,64 @@ public class OkHttpApp {
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        int index = 201;
-        int total = 200 + index;
-        CountDownLatch countDownLatch = new CountDownLatch(total);
+//        createDevice(executorService);
+        createChildDevice(executorService);
+        //aggsTest(executorService);
+        //test();
+    }
+
+    private static void createChildDevice(ExecutorService executorService) throws InterruptedException {
+        int gatewayIndex = 6;
+        int index = 5;
+        int childIndex = 100;
+        CountDownLatch countDownLatch = new CountDownLatch((gatewayIndex - index) * childIndex);
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        for (int i = index; i < total; i++) {
-            int finalI = i;
-            executorService.submit(() -> createGateway(countDownLatch, finalI));
+        for (int i = index; i < gatewayIndex; i++) {
+            for (int j = 0; j < childIndex; j++) {
+                String id = "exchanger-c" + i + j;
+                executorService.submit(() -> createGateway(countDownLatch, id));
+            }
         }
         countDownLatch.await();
         stopWatch.stop();
         System.out.println("耗时：" + stopWatch.getTotalTimeMillis());
         executorService.shutdown();
-
-        //aggsTest(executorService);
-        //test();
     }
 
-    private static void createGateway(CountDownLatch countDownLatch, int index) {
+    private static void createDevice(ExecutorService executorService) throws InterruptedException {
+        int index = 0;
+        int total = 1000 + index;
+        CountDownLatch countDownLatch = new CountDownLatch(total);
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        for (int i = index; i < total; i++) {
+            String id = "cc-child" + i;
+            executorService.submit(() -> createGateway(countDownLatch, id));
+        }
+        countDownLatch.await();
+        stopWatch.stop();
+        System.out.println("耗时：" + stopWatch.getTotalTimeMillis());
+        executorService.shutdown();
+    }
+
+    private static void createGateway(CountDownLatch countDownLatch, String id) {
         JSONObject jsonObject = new JSONObject();
-        String id = "ccgateway" + index;
         jsonObject.put("id", id);
         jsonObject.put("name", id);
-        jsonObject.put("productId", "1551395045413605376");
-        jsonObject.put("productName", "wq-test");
-        jsonObject.put("version", "1551395337966309376");
+        jsonObject.put("productId", "exchangp2");
+        jsonObject.put("productName", "多云接收2");
+        jsonObject.put("version", "1582621892916989952");
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder().readTimeout(60, TimeUnit.SECONDS);
         OkHttpClient client = builder.build();
 
         RequestBody requestBody = RequestBody.create(JSON, jsonObject.toJSONString());
-        String addAddr = "http://localhost:8848/device/instance";
+        String addAddr = "http://10.113.75.72/api/iot-service/device/instance";
+//        String auth = "test";
+        String auth = "Bearer eyJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoiMjIzMzIwNjE2OTU4MDEzNDQwIiwiYXpwIjoiZW1iZWQtaWFtIiwidW5pcXVlX2tleSI6ImM1ZGU4YWFmLWIxNzMtNGRkNi04N2JmLWM0YWI5NTllYmMxOSIsIm5hbWUiOiJJSU9U5rWL6K-VIiwidHlwIjoiQmVhcmVyIiwicmVhbG0iOiIxIiwianRpIjoiZTAyZTdiYTgtZjllYi00ZDk2LWEyODAtYzkwYjI4NjhlMjMxIiwiaWF0IjoxNjY2MDg0NTUzLCJleHAiOjE2NjYxNzA5NTN9.Wy7v2owRVKy6K0gyQtY4InF9muFXMMXldqCogVI7wVeWMt4aVFDRs361AFIlvObvvEFTl_sBmjNkhEPyf1tRXg";
         Request instance = new Request.Builder()
                 .post(requestBody)
-                .addHeader("Authorization", "test")
+                .addHeader("Authorization", auth)
                 .url(addAddr).build();
 
         try (Response response = client.newCall(instance).execute()) {
@@ -64,17 +88,17 @@ public class OkHttpApp {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String alarmCreate = "http://localhost:8848/device/default-alarm/1551395045413605376/" + id + "/_create";
+        String alarmCreate = "http://10.113.75.72/api/iot-service/device/default-alarm/1551395045413605376/" + id + "/_create";
         RequestBody nullBody = RequestBody.create(JSON, "{}");
-        Request alarm = new Request.Builder().post(nullBody).addHeader("Authorization", "test")
+        Request alarm = new Request.Builder().post(nullBody).addHeader("Authorization", auth)
                 .url(alarmCreate).build();
         try (Response response = client.newCall(alarm).execute()) {
             String result = response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String deployInstance = "http://localhost:8848/device/instance/" + id + "/deploy";
-        Request deploy = new Request.Builder().post(nullBody).addHeader("Authorization", "test")
+        String deployInstance = "http://10.113.75.72/api/iot-service/device/instance/" + id + "/deploy";
+        Request deploy = new Request.Builder().post(nullBody).addHeader("Authorization", auth)
                 .url(deployInstance).build();
         try (Response response = client.newCall(deploy).execute()) {
             String result = response.body().string();

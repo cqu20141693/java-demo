@@ -2,7 +2,7 @@
 
 #### cql
 
-1. 登录 ./cqlsh 192.168.96.252 -u cassandra -p cassandra
+1. 登录 ./cqlsh 127.0.0.1 -u cassandra -p cassandra
 2. keyspace
 3. ```
    DESCRIBE KEYSPACES 
@@ -10,11 +10,30 @@
    DESCRIBE SCHEMA
    DROP KEYSPACE excelsior;
    DESCRIBE TABLES
+
 ```
-3. copy
+3. 迁移schema
+
+```markdown
+vi migrate_schema.sh
+................................
+#!/bin/sh
+
+rm -f db.cql
+
+./cqlsh $5 -e "desc keyspace $1" -u $3 -p $4 > db.cql
+
+sed "s/$1/$2/g" -i db.cql
+sed "s/default_time_to_live = 0/default_time_to_live = 2678400/g" -i db.cql
+
+./cqlsh 127.0.0.1 -u $3 -p $4 -f db.cql
+................................
+
+chmod 777 migrate_schema.sh
+migrate_schema.sh iiot iiot_v3 cassandra cassandra 10.1.12.70
 ```
-COPY jetlinks.properties_gateway_deploy TO '/home/cas/copydata'
-```
+
+
 
 10.128.81.200
 
@@ -87,8 +106,11 @@ Cassandra是为优异的写吞吐量而特别优化的，能够支持很高的�
 #### nodetool
 
 [nodetool 使用](https://blog.csdn.net/u011250186/article/details/106762617)
-1. 
+
+1.
+
 #### 调优
+
 ```markdown
 1. [调优](https://blog.csdn.net/u011250186/article/details/106768355)
 ```
